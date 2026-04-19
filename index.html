@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aditya Marathe — IST 782 Portfolio</title>
+<meta name="description" content="M.S. Applied Data Science portfolio · Syracuse University iSchool.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;1,9..144,300;1,9..144,400&family=JetBrains+Mono:wght@400;500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0;}
+  :root{
+    --accent:#00ff9d;
+    --accent-dim:#00cc7e;
+    --accent-glow:rgba(0,255,157,0.15);
+    --accent-bg:rgba(0,255,157,0.06);
+    --text:#f0efea;
+    --text-dim:#9a9a94;
+    --muted:#6a6a64;
+    --border:rgba(255,255,255,0.08);
+    --border-strong:rgba(255,255,255,0.18);
+    --card:rgba(255,255,255,0.02);
+    --card-hover:rgba(255,255,255,0.04);
+    --bg:#0a0a08;
+    --bg-soft:#111110;
+  }
+  html{scroll-behavior:smooth;}
+  body{font-family:'Inter',sans-serif;color:var(--text);background:var(--bg);line-height:1.65;font-weight:300;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+
+  ::selection{background:var(--accent);color:var(--bg);}
+
+  /* Custom cursor glow */
+  .cursor-glow{position:fixed;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,var(--accent-glow) 0%,transparent 70%);pointer-events:none;z-index:1;transform:translate(-50%,-50%);transition:opacity 0.3s;mix-blend-mode:screen;}
+
+  /* Grain overlay */
+  body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:2;opacity:0.03;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9'/></filter><rect width='200' height='200' filter='url(%23n)' opacity='1'/></svg>");}
+
+  /* Particle canvas */
+  #particles{position:absolute;top:0;left:0;width:100%;height:100%;z-index:0;}
+
+  /* Nav */
+  nav{display:flex;align-items:center;justify-content:space-between;padding:1.25rem 2rem;position:fixed;top:0;left:0;right:0;z-index:50;backdrop-filter:blur(12px) saturate(1.2);background:rgba(10,10,8,0.7);border-bottom:0.5px solid var(--border);}
+  .logo{font-family:'Fraunces',serif;font-size:17px;font-weight:400;letter-spacing:-0.3px;display:flex;align-items:center;gap:8px;}
+  .logo-dot{width:8px;height:8px;background:var(--accent);border-radius:50%;box-shadow:0 0 12px var(--accent);animation:pulse 2s infinite;}
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.4;}}
+  .nav-right{display:flex;align-items:center;gap:1.5rem;}
+  .nav-links{display:flex;gap:1.5rem;}
+  .nav-links a{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-dim);text-decoration:none;cursor:pointer;transition:color 0.2s;letter-spacing:0.05em;text-transform:uppercase;position:relative;}
+  .nav-links a::before{content:"";position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--accent);transition:width 0.3s;}
+  .nav-links a:hover{color:var(--accent);}
+  .nav-links a:hover::before{width:100%;}
+  .cmd-btn{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-dim);background:transparent;border:0.5px solid var(--border-strong);border-radius:6px;padding:5px 10px;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:6px;}
+  .cmd-btn:hover{color:var(--accent);border-color:var(--accent);}
+  .cmd-btn kbd{background:var(--border);padding:1px 5px;border-radius:3px;font-size:10px;}
+  @media(max-width:720px){.nav-links{display:none;}}
+
+  /* HERO */
+  .hero-wrap{position:relative;min-height:100vh;display:flex;align-items:center;padding:6rem 2rem 4rem;overflow:hidden;}
+  .hero{position:relative;z-index:3;max-width:1100px;margin:0 auto;width:100%;}
+  .hero-meta{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--accent);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:1.5rem;display:flex;align-items:center;gap:12px;opacity:0;animation:fadeUp 0.8s 0.2s forwards;}
+  .hero-meta::before{content:"";width:32px;height:1px;background:var(--accent);display:inline-block;}
+  .hero h1{font-family:'Fraunces',serif;font-size:clamp(3rem,8vw,7rem);line-height:0.95;letter-spacing:-3px;margin-bottom:1.5rem;font-weight:300;opacity:0;animation:fadeUp 1s 0.4s forwards;}
+  .hero h1 .line{display:block;}
+  .hero h1 em{font-style:italic;font-weight:300;background:linear-gradient(120deg,var(--accent) 0%,#fff 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+  .typed-wrap{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--text-dim);margin-bottom:2rem;opacity:0;animation:fadeUp 0.8s 0.8s forwards;min-height:24px;}
+  .typed-wrap::before{content:"> ";color:var(--accent);}
+  .cursor{display:inline-block;width:8px;height:14px;background:var(--accent);margin-left:2px;animation:blink 1s infinite;vertical-align:middle;}
+  @keyframes blink{0%,50%{opacity:1;}51%,100%{opacity:0;}}
+  .hero-sub{font-size:1.05rem;color:var(--text-dim);max-width:620px;line-height:1.75;margin-bottom:2.5rem;opacity:0;animation:fadeUp 0.8s 1s forwards;font-weight:300;}
+  .hero-ctas{display:flex;gap:12px;flex-wrap:wrap;opacity:0;animation:fadeUp 0.8s 1.2s forwards;}
+  .btn-primary{background:var(--accent);color:var(--bg);border:none;padding:13px 26px;border-radius:6px;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:500;cursor:pointer;text-decoration:none;transition:all 0.2s;letter-spacing:0.05em;text-transform:uppercase;position:relative;overflow:hidden;display:inline-flex;align-items:center;gap:8px;}
+  .btn-primary::before{content:"";position:absolute;inset:0;background:linear-gradient(120deg,transparent,rgba(255,255,255,0.3),transparent);transform:translateX(-100%);transition:transform 0.6s;}
+  .btn-primary:hover::before{transform:translateX(100%);}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 40px var(--accent-glow);}
+  .btn-ghost{background:transparent;color:var(--text);border:0.5px solid var(--border-strong);padding:13px 26px;border-radius:6px;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:500;cursor:pointer;text-decoration:none;transition:all 0.2s;display:inline-flex;align-items:center;gap:8px;letter-spacing:0.05em;text-transform:uppercase;}
+  .btn-ghost:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-2px);}
+
+  .scroll-hint{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:0.2em;text-transform:uppercase;opacity:0;animation:fadeUp 0.8s 1.6s forwards;display:flex;flex-direction:column;align-items:center;gap:8px;}
+  .scroll-hint::after{content:"";width:1px;height:30px;background:linear-gradient(to bottom,var(--accent),transparent);animation:scrollDown 2s infinite;}
+  @keyframes scrollDown{0%{transform:scaleY(0);transform-origin:top;}50%{transform:scaleY(1);transform-origin:top;}51%{transform-origin:bottom;}100%{transform:scaleY(0);transform-origin:bottom;}}
+
+  @keyframes fadeUp{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
+
+  /* Info strip */
+  .info-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));border-top:0.5px solid var(--border);border-bottom:0.5px solid var(--border);background:var(--bg-soft);position:relative;z-index:5;}
+  .info-cell{padding:1.5rem 2rem;border-right:0.5px solid var(--border);transition:background 0.3s;}
+  .info-cell:hover{background:var(--card);}
+  .info-cell:last-child{border-right:none;}
+  .info-label{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:8px;}
+  .info-value{font-size:15px;font-weight:400;font-family:'Fraunces',serif;}
+  .info-value small{color:var(--text-dim);font-weight:300;font-family:'Inter',sans-serif;font-size:12px;display:block;margin-top:2px;}
+
+  /* Sections */
+  section{max-width:1100px;margin:0 auto;padding:6rem 2rem;border-bottom:0.5px solid var(--border);position:relative;}
+  .section-label{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--accent);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:1rem;display:flex;align-items:center;gap:12px;}
+  .section-label::before{content:"§";color:var(--muted);font-family:'Fraunces',serif;font-style:italic;}
+  .section-title{font-family:'Fraunces',serif;font-size:clamp(2rem,5vw,3.25rem);margin-bottom:1rem;letter-spacing:-1.5px;font-weight:300;line-height:1.1;}
+  .section-title em{font-style:italic;color:var(--accent);}
+  .section-intro{font-size:1.05rem;color:var(--text-dim);max-width:720px;line-height:1.75;margin-bottom:3.5rem;font-weight:300;}
+
+  /* Reveal animations */
+  .reveal{opacity:0;transform:translateY(40px);transition:opacity 0.8s cubic-bezier(0.2,0.8,0.2,1),transform 0.8s cubic-bezier(0.2,0.8,0.2,1);}
+  .reveal.visible{opacity:1;transform:translateY(0);}
+
+  /* PLO Connector Map */
+  .plo-map{background:var(--card);border:0.5px solid var(--border);border-radius:16px;padding:2rem;margin-bottom:2.5rem;position:relative;overflow:hidden;}
+  .plo-map-svg{width:100%;height:auto;display:block;max-width:900px;margin:0 auto;}
+  .node-plo{cursor:pointer;transition:all 0.3s;}
+  .node-plo circle{fill:var(--bg-soft);stroke:var(--border-strong);stroke-width:1;transition:all 0.3s;}
+  .node-plo text{fill:var(--text);font-family:'Fraunces',serif;font-size:14px;font-weight:400;}
+  .node-plo .label{fill:var(--text-dim);font-family:'Inter',sans-serif;font-size:10px;font-weight:400;}
+  .node-plo:hover circle,.node-plo.active circle{fill:var(--accent-bg);stroke:var(--accent);stroke-width:1.5;}
+  .node-plo:hover text,.node-plo.active text{fill:var(--accent);}
+  .node-project{cursor:pointer;}
+  .node-project rect{fill:var(--bg-soft);stroke:var(--border-strong);stroke-width:1;transition:all 0.3s;rx:8;}
+  .node-project text{fill:var(--text);font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:0.08em;}
+  .node-project:hover rect,.node-project.active rect{fill:var(--accent-bg);stroke:var(--accent);}
+  .node-project:hover text,.node-project.active text{fill:var(--accent);}
+  .link{stroke:var(--border);stroke-width:1;fill:none;transition:all 0.4s;}
+  .link.active{stroke:var(--accent);stroke-width:1.5;filter:drop-shadow(0 0 4px var(--accent-glow));}
+  .plo-map-hint{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);text-align:center;margin-top:1rem;letter-spacing:0.08em;text-transform:uppercase;}
+
+  /* PLO grid */
+  .plo-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1px;background:var(--border);border:0.5px solid var(--border);border-radius:12px;overflow:hidden;}
+  .plo-card{background:var(--bg);padding:1.75rem;transition:all 0.3s;cursor:pointer;position:relative;overflow:hidden;}
+  .plo-card::before{content:"";position:absolute;top:0;left:0;width:0;height:2px;background:var(--accent);transition:width 0.4s;}
+  .plo-card:hover{background:var(--card-hover);}
+  .plo-card:hover::before{width:100%;}
+  .plo-num{font-family:'Fraunces',serif;font-size:42px;color:var(--accent);font-style:italic;line-height:1;margin-bottom:12px;font-weight:300;}
+  .plo-card h4{font-size:15px;font-weight:500;margin-bottom:8px;letter-spacing:-0.2px;}
+  .plo-card p{font-size:13px;color:var(--text-dim);line-height:1.65;font-weight:300;}
+  .plo-projects{margin-top:14px;display:flex;gap:5px;flex-wrap:wrap;}
+  .plo-tag{font-family:'JetBrains Mono',monospace;font-size:9px;background:var(--accent-bg);color:var(--accent);padding:3px 8px;border-radius:3px;letter-spacing:0.08em;text-transform:uppercase;}
+
+  /* Project cards */
+  .project{background:var(--card);border:0.5px solid var(--border);border-radius:14px;padding:2.25rem;margin-bottom:1.25rem;transition:all 0.4s;position:relative;overflow:hidden;}
+  .project::before{content:"";position:absolute;top:0;left:-100%;width:100%;height:1px;background:linear-gradient(90deg,transparent,var(--accent),transparent);transition:left 0.8s;}
+  .project:hover{border-color:var(--border-strong);background:var(--card-hover);}
+  .project:hover::before{left:100%;}
+  .project-header{display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;margin-bottom:0.5rem;flex-wrap:wrap;}
+  .project-header h3{font-family:'Fraunces',serif;font-size:1.75rem;font-weight:300;letter-spacing:-0.5px;line-height:1.2;}
+  .project-course{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:0.08em;padding-top:8px;white-space:nowrap;}
+  .project-context{font-size:13px;color:var(--accent);margin-bottom:1.5rem;font-weight:500;font-family:'JetBrains Mono',monospace;letter-spacing:0.03em;}
+  .project-row{display:grid;grid-template-columns:120px 1fr;gap:1.5rem;padding:0.9rem 0;border-top:0.5px solid var(--border);}
+  @media(max-width:600px){.project-row{grid-template-columns:1fr;gap:0.3rem;}}
+  .project-row-label{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:0.12em;text-transform:uppercase;padding-top:3px;}
+  .project-row-content{font-size:14px;color:var(--text);line-height:1.7;font-weight:300;}
+  .project-row-content.muted{color:var(--text-dim);}
+  .tech-stack{display:flex;gap:6px;flex-wrap:wrap;}
+  .tech-tag{font-family:'JetBrains Mono',monospace;font-size:11px;background:var(--accent-bg);color:var(--accent);padding:4px 10px;border-radius:4px;border:0.5px solid transparent;transition:all 0.2s;}
+  .tech-tag:hover{border-color:var(--accent);transform:translateY(-1px);}
+  .plo-badges{display:flex;gap:6px;flex-wrap:wrap;}
+  .plo-badge{font-family:'JetBrains Mono',monospace;font-size:10px;background:var(--bg-soft);border:0.5px solid var(--border-strong);color:var(--text);padding:3px 8px;border-radius:3px;}
+
+  /* Interactive demos */
+  .demo-box{background:var(--bg-soft);border:0.5px solid var(--border);border-radius:10px;padding:1.5rem;margin-top:1rem;}
+  .demo-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;}
+  .demo-title{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:0.12em;text-transform:uppercase;display:flex;align-items:center;gap:6px;}
+  .demo-title::before{content:"";width:6px;height:6px;background:var(--accent);border-radius:50%;box-shadow:0 0 8px var(--accent);animation:pulse 2s infinite;}
+
+  /* F1 demo */
+  .f1-controls{display:flex;flex-direction:column;gap:14px;margin-bottom:1rem;}
+  .slider-row{display:flex;align-items:center;gap:14px;}
+  .slider-row label{font-size:12px;color:var(--text-dim);min-width:100px;font-family:'JetBrains Mono',monospace;letter-spacing:0.05em;}
+  .slider-row input[type=range]{flex:1;-webkit-appearance:none;appearance:none;height:2px;background:var(--border-strong);border-radius:1px;outline:none;}
+  .slider-row input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:16px;height:16px;background:var(--accent);border-radius:50%;cursor:pointer;box-shadow:0 0 12px var(--accent-glow);}
+  .slider-row input[type=range]::-moz-range-thumb{width:16px;height:16px;background:var(--accent);border-radius:50%;cursor:pointer;border:none;}
+  .slider-value{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--accent);min-width:80px;text-align:right;font-weight:500;}
+  .f1-result{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:1rem;padding-top:1rem;border-top:0.5px solid var(--border);}
+  .f1-stat{text-align:left;}
+  .f1-stat-label{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:6px;}
+  .f1-stat-value{font-family:'Fraunces',serif;font-size:1.75rem;font-weight:300;color:var(--accent);line-height:1;}
+  .f1-stat-value small{font-size:12px;color:var(--text-dim);font-family:'Inter',sans-serif;font-weight:300;margin-left:2px;}
+
+  /* BERT chart */
+  .bert-chart-wrap{position:relative;height:260px;margin-top:0.5rem;}
+  .bert-legend{display:flex;gap:1.5rem;justify-content:center;margin-top:1rem;flex-wrap:wrap;}
+  .bert-legend-item{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text-dim);font-family:'JetBrains Mono',monospace;}
+  .bert-legend-dot{width:10px;height:10px;border-radius:50%;}
+  .bert-controls{display:flex;gap:8px;justify-content:center;margin-top:0.75rem;flex-wrap:wrap;}
+  .bert-btn{background:transparent;border:0.5px solid var(--border-strong);color:var(--text-dim);padding:6px 14px;border-radius:6px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;transition:all 0.2s;}
+  .bert-btn:hover,.bert-btn.active{border-color:var(--accent);color:var(--accent);background:var(--accent-bg);}
+
+  /* Track */
+  .track-box{background:linear-gradient(135deg,var(--card) 0%,rgba(0,255,157,0.03) 100%);border:0.5px solid var(--accent);border-radius:14px;padding:2.5rem;position:relative;overflow:hidden;}
+  .track-box::before{content:"DS";position:absolute;top:-30px;right:-20px;font-family:'Fraunces',serif;font-size:14rem;color:var(--accent);opacity:0.04;font-style:italic;line-height:1;}
+  .track-box h3{font-family:'Fraunces',serif;font-size:1.75rem;font-weight:300;margin-bottom:1rem;letter-spacing:-0.5px;position:relative;}
+  .track-box h3 em{color:var(--accent);font-style:italic;}
+  .track-box p{font-size:15px;color:var(--text-dim);line-height:1.8;font-weight:300;position:relative;max-width:680px;}
+
+  /* Video */
+  .video-placeholder{background:var(--card);border:0.5px dashed var(--border-strong);border-radius:14px;padding:4rem 2rem;text-align:center;transition:all 0.3s;cursor:pointer;}
+  .video-placeholder:hover{border-color:var(--accent);background:var(--card-hover);}
+  .video-placeholder-icon{width:64px;height:64px;margin:0 auto 1rem;border-radius:50%;border:0.5px solid var(--accent);display:flex;align-items:center;justify-content:center;color:var(--accent);font-size:20px;transition:all 0.3s;}
+  .video-placeholder:hover .video-placeholder-icon{background:var(--accent);color:var(--bg);transform:scale(1.1);}
+  .video-placeholder h3{font-family:'Fraunces',serif;font-size:1.35rem;font-weight:300;margin-bottom:0.5rem;}
+  .video-placeholder p{font-size:13px;color:var(--text-dim);max-width:420px;margin:0 auto;font-weight:300;}
+
+  /* Blog */
+  .blog-stub{display:flex;align-items:center;justify-content:space-between;padding:1.4rem 0;border-top:0.5px solid var(--border);cursor:pointer;transition:all 0.3s;gap:1rem;position:relative;}
+  .blog-stub::before{content:"→";position:absolute;left:-24px;opacity:0;color:var(--accent);transition:all 0.3s;}
+  .blog-stub:last-child{border-bottom:0.5px solid var(--border);}
+  .blog-stub:hover{padding-left:24px;}
+  .blog-stub:hover::before{opacity:1;left:0;}
+  .blog-stub-title{font-family:'Fraunces',serif;font-size:1.2rem;font-weight:300;letter-spacing:-0.2px;}
+  .blog-stub-meta{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);white-space:nowrap;letter-spacing:0.05em;}
+
+  /* Contact */
+  .contact-box{background:linear-gradient(135deg,var(--card) 0%,rgba(0,255,157,0.04) 100%);border:0.5px solid var(--border-strong);border-radius:14px;padding:3rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1.5rem;}
+  .contact-box h2{font-family:'Fraunces',serif;font-size:2.25rem;font-weight:300;letter-spacing:-0.75px;}
+  .contact-box h2 em{color:var(--accent);font-style:italic;}
+  .contact-box p{font-size:14px;color:var(--text-dim);margin-top:6px;font-weight:300;}
+  .contact-links{display:flex;gap:10px;flex-wrap:wrap;}
+
+  footer{text-align:center;padding:2.5rem;font-size:11px;color:var(--muted);font-family:'JetBrains Mono',monospace;letter-spacing:0.1em;border-top:0.5px solid var(--border);}
+
+  /* Command palette */
+  .cmd-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);backdrop-filter:blur(8px);z-index:100;display:flex;align-items:flex-start;justify-content:center;padding-top:12vh;opacity:0;visibility:hidden;transition:opacity 0.2s,visibility 0.2s;}
+  .cmd-overlay.open{opacity:1;visibility:visible;}
+  .cmd-panel{background:var(--bg-soft);border:0.5px solid var(--border-strong);border-radius:12px;width:90%;max-width:560px;overflow:hidden;box-shadow:0 20px 80px rgba(0,0,0,0.5);transform:translateY(-20px);transition:transform 0.2s;}
+  .cmd-overlay.open .cmd-panel{transform:translateY(0);}
+  .cmd-input-wrap{position:relative;border-bottom:0.5px solid var(--border);}
+  .cmd-input{width:100%;background:transparent;border:none;padding:1.25rem 1.5rem 1.25rem 3rem;font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--text);outline:none;}
+  .cmd-input-wrap::before{content:"⌕";position:absolute;left:1.25rem;top:50%;transform:translateY(-50%);color:var(--accent);font-size:18px;}
+  .cmd-list{max-height:360px;overflow-y:auto;padding:0.5rem;}
+  .cmd-item{padding:0.75rem 1rem;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:1rem;transition:background 0.15s;}
+  .cmd-item:hover,.cmd-item.selected{background:var(--card-hover);}
+  .cmd-item-left{display:flex;align-items:center;gap:12px;}
+  .cmd-item-icon{font-family:'Fraunces',serif;font-style:italic;color:var(--accent);width:24px;text-align:center;font-size:14px;}
+  .cmd-item-text{font-size:13px;}
+  .cmd-item-hint{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase;}
+  .cmd-footer{padding:0.75rem 1.25rem;border-top:0.5px solid var(--border);font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);display:flex;gap:1rem;letter-spacing:0.05em;}
+  .cmd-footer kbd{background:var(--border);padding:1px 5px;border-radius:3px;}
+
+</style>
+</head>
+<body>
+
+<div class="cursor-glow" id="cursorGlow"></div>
+
+<nav>
+  <span class="logo"><span class="logo-dot"></span>Aditya Marathe</span>
+  <div class="nav-right">
+    <div class="nav-links">
+      <a href="#overview">01/Overview</a>
+      <a href="#projects">02/Projects</a>
+      <a href="#track">03/Track</a>
+      <a href="#blog">04/Blog</a>
+      <a href="#contact">05/Contact</a>
+    </div>
+    <button class="cmd-btn" onclick="openPalette()">⌘K <kbd>cmd</kbd></button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero-wrap">
+  <canvas id="particles"></canvas>
+  <div class="hero">
+    <div class="hero-meta">IST 782 · Spring 2026 · Syracuse University iSchool</div>
+    <h1>
+      <span class="line">From messy data</span>
+      <span class="line">to <em>actionable</em></span>
+      <span class="line"><em>insight</em>.</span>
+    </h1>
+    <div class="typed-wrap"><span id="typed"></span><span class="cursor"></span></div>
+    <p class="hero-sub">A reflective portfolio documenting my journey through the M.S. in Applied Data Science at Syracuse — mapping coursework, projects, and outcomes to the program's six learning goals.</p>
+    <div class="hero-ctas">
+      <a href="#overview" class="btn-primary">Explore portfolio →</a>
+      <a href="https://www.linkedin.com/in/aditya-marathe99/" target="_blank" class="btn-ghost">LinkedIn ↗</a>
+    </div>
+  </div>
+  <div class="scroll-hint">scroll to enter</div>
+</div>
+
+<!-- INFO STRIP -->
+<div class="info-strip">
+  <div class="info-cell">
+    <div class="info-label">Program</div>
+    <div class="info-value">M.S. Applied Data Science<small>Syracuse iSchool</small></div>
+  </div>
+  <div class="info-cell">
+    <div class="info-label">Track</div>
+    <div class="info-value">Data Science<small>Technical specialization</small></div>
+  </div>
+  <div class="info-cell">
+    <div class="info-label">Graduation</div>
+    <div class="info-value">May 2026<small>Portfolio: IST 782</small></div>
+  </div>
+  <div class="info-cell">
+    <div class="info-label">Focus</div>
+    <div class="info-value">ML · NLP · Analytics<small>Process improvement</small></div>
+  </div>
+</div>
+
+<!-- OVERVIEW -->
+<section id="overview">
+  <div class="reveal">
+    <div class="section-label">01 / Overview</div>
+    <h2 class="section-title">Six outcomes, <em>three projects</em>.</h2>
+    <p class="section-intro">The M.S. in Applied Data Science is a practitioner's degree. These six learning outcomes define what every graduate should demonstrate — and the map below shows how my three featured projects cover all six. Hover a node to trace the connections.</p>
+  </div>
+
+  <!-- PLO MAP -->
+  <div class="reveal plo-map" id="ploMap">
+    <svg class="plo-map-svg" viewBox="0 0 900 440" xmlns="http://www.w3.org/2000/svg" id="ploSvg">
+      <!-- Links (drawn first so nodes cover them) -->
+      <g id="links"></g>
+
+      <!-- PLO nodes (left column) -->
+      <g class="node-plo" data-id="plo1" data-projects="loretto,f1,bert" transform="translate(140,60)">
+        <circle r="28"/>
+        <text text-anchor="middle" y="4" font-style="italic">1</text>
+        <text class="label" text-anchor="middle" y="52">Data access</text>
+      </g>
+      <g class="node-plo" data-id="plo2" data-projects="loretto,bert" transform="translate(140,140)">
+        <circle r="28"/>
+        <text text-anchor="middle" y="4" font-style="italic">2</text>
+        <text class="label" text-anchor="middle" y="52">Actionable insight</text>
+      </g>
+      <g class="node-plo" data-id="plo3" data-projects="f1,bert" transform="translate(140,220)">
+        <circle r="28"/>
+        <text text-anchor="middle" y="4" font-style="italic">3</text>
+        <text class="label" text-anchor="middle" y="52">Viz + modeling</text>
+      </g>
+      <g class="node-plo" data-id="plo4" data-projects="loretto,f1,bert" transform="translate(140,300)">
+        <circle r="28"/>
+        <text text-anchor="middle" y="4" font-style="italic">4</text>
+        <text class="label" text-anchor="middle" y="52">Programming</text>
+      </g>
+      <g class="node-plo" data-id="plo5" data-projects="loretto,f1" transform="translate(140,380)">
+        <circle r="28"/>
+        <text text-anchor="middle" y="4" font-style="italic">5</text>
+        <text class="label" text-anchor="middle" y="52">Communication</text>
+      </g>
+      <g class="node-plo" data-id="plo6" data-projects="loretto,bert" transform="translate(240,440)">
+        <!-- moved below due to space - we'll reposition in JS -->
+      </g>
+
+      <!-- Project nodes (right column) -->
+      <g class="node-project" data-id="loretto" data-plos="plo1,plo2,plo4,plo5,plo6" transform="translate(640,100)">
+        <rect x="-90" y="-22" width="180" height="44" rx="8"/>
+        <text text-anchor="middle" y="4">Loretto · Healthcare</text>
+      </g>
+      <g class="node-project" data-id="f1" data-plos="plo1,plo3,plo4,plo5" transform="translate(640,220)">
+        <rect x="-90" y="-22" width="180" height="44" rx="8"/>
+        <text text-anchor="middle" y="4">F1 · IST 719</text>
+      </g>
+      <g class="node-project" data-id="bert" data-plos="plo1,plo2,plo3,plo4,plo6" transform="translate(640,340)">
+        <rect x="-90" y="-22" width="180" height="44" rx="8"/>
+        <text text-anchor="middle" y="4">BERT · IST 707</text>
+      </g>
+    </svg>
+    <div class="plo-map-hint">Hover any node to trace connections · Click a project for details</div>
+  </div>
+
+  <div class="reveal plo-grid">
+    <div class="plo-card">
+      <div class="plo-num">1</div>
+      <h4>Data collection & access</h4>
+      <p>Collect, store, and access data by identifying and leveraging applicable technologies.</p>
+      <div class="plo-projects"><span class="plo-tag">Loretto</span><span class="plo-tag">F1</span><span class="plo-tag">BERT</span></div>
+    </div>
+    <div class="plo-card">
+      <div class="plo-num">2</div>
+      <h4>Actionable insight</h4>
+      <p>Create actionable insight across contexts — societal, business, political — using the full data science life cycle.</p>
+      <div class="plo-projects"><span class="plo-tag">Loretto</span><span class="plo-tag">BERT</span></div>
+    </div>
+    <div class="plo-card">
+      <div class="plo-num">3</div>
+      <h4>Visualization & predictive modeling</h4>
+      <p>Apply visualization and predictive models to help generate actionable insight.</p>
+      <div class="plo-projects"><span class="plo-tag">F1</span><span class="plo-tag">BERT</span></div>
+    </div>
+    <div class="plo-card">
+      <div class="plo-num">4</div>
+      <h4>Programming for data science</h4>
+      <p>Use programming languages such as R and Python to support the generation of actionable insight.</p>
+      <div class="plo-projects"><span class="plo-tag">Loretto</span><span class="plo-tag">F1</span><span class="plo-tag">BERT</span></div>
+    </div>
+    <div class="plo-card">
+      <div class="plo-num">5</div>
+      <h4>Communicating insights</h4>
+      <p>Communicate insights via visualization and analytics to broad audiences — sponsors, technical leads, domain experts.</p>
+      <div class="plo-projects"><span class="plo-tag">Loretto</span><span class="plo-tag">F1</span></div>
+    </div>
+    <div class="plo-card">
+      <div class="plo-num">6</div>
+      <h4>Ethics in data science</h4>
+      <p>Apply ethics in the development, use, and evaluation of data and predictive models — fairness, bias, transparency, privacy.</p>
+      <div class="plo-projects"><span class="plo-tag">Loretto</span><span class="plo-tag">BERT</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="reveal">
+    <div class="section-label">02 / Projects</div>
+    <h2 class="section-title">Featured <em>work</em>.</h2>
+    <p class="section-intro">Three projects spanning healthcare, motorsport, and financial NLP — collectively demonstrating all six program learning outcomes. Two of them include live interactive demos below.</p>
+  </div>
+
+  <!-- PROJECT 1: Loretto -->
+  <div class="reveal project" id="project-loretto">
+    <div class="project-header">
+      <h3>Patient Feedback Automation System</h3>
+      <div class="project-course">Capstone · Internship</div>
+    </div>
+    <div class="project-context">Loretto Hospital & Rehabilitation Center · Operations Data Analyst</div>
+    <div class="project-row">
+      <div class="project-row-label">Goals</div>
+      <div class="project-row-content muted">Design and pilot an automated patient feedback pipeline using DMAIC / Lean Six Sigma methodology — replacing a manual, paper-based review process with a scalable system that surfaces actionable insights for hospital leadership.</div>
+    </div>
+    <div class="project-row">
+      <div class="project-row-label">Stack</div>
+      <div class="project-row-content"><div class="tech-stack"><span class="tech-tag">Python</span><span class="tech-tag">NLP</span><span class="tech-tag">Lean Six Sigma</span><span class="tech-tag">SIPOC</span><span class="tech-tag">VSM</span><span class="tech-tag">Power BI</span></div></div>
+    </div>
+    <div class="project-row">
+      <div class="project-row-label">Contribution</div>
+      <div class="project-row-content muted">Led the DMAIC engagement end-to-end: defined the problem with stakeholders, built SIPOC and current/future-state value stream maps, automated the feedback classification pipeline, and delivered a final pilot report with projected ROI.</div>
+    </div>
+    <div class="project-row">
+      <div class="project-row-label">Insight</div>
+      <div class="project-row-content muted">Reduced manual review overhead substantially and gave leadership a near-real-time view of recurring service gaps. The pilot's projected ROI justified a phased rollout.</div>
+    </div>
+    <div class="project-row">
+      <div class="project-row-label">PLOs met</div>
+      <div class="project-row-content"><div class="plo-badges"><span class="plo-badge">PLO 1</span><span class="plo-badge">PLO 2</span><span class="plo-badge">PLO 4</span><span class="plo-badge">PLO 5</span><span class="plo-badge">PLO 6</span></div></div>
+    </div>
+  </div>
+
+  <!-- PROJECT 2: F1 -->
+  <div class="reveal project" id="project-f1">
+    <div class="project-header">
+      <h3>Formula 1 Race Analytics</h3>
+      <div class="project-course">IST 719 · Info Visualization</div>
+    </div>
+    <div class="project-context">Exploratory analysis & interactive dashboards for race strategy insights</div>
+    <div class="project-row">
+      <div class="project-row-label">Goals</div>
+      <div class="project-row-content muted">Explore two decades of F1 race data to surface patterns in lap times, pit strategy, and driver performance — and communicate findings through visualizations accessible to non-experts.</div>
+    </div>
+    <div class="project-row">
+      <div class="project-row-label">Stack</div>
+      <div class="project-row-content"><div class="tech-stack"><span class="tech-tag">Python</span><span class="tech-tag">Pandas</span><span class="tech-tag">Tableau</span><span class="tech-tag">Matplotlib</span><span class="tech-tag">SQL</span></div></div>
+    </div>
+    <div class="project-row">
+      <div class="project-row-label">Insight</div>
+      <div class="project-row-content muted">Quantified how pit-stop timing affects finishing position and how track characteristics interact with tire strategy — packaged for a non-technical audience as an interactive dashboard story.</div>
+    </div>
+
+    <!-- F1 INTERACTIVE DEMO -->
+    <div class="demo-box">
+      <div class="demo-header">
+        <div class="demo-title">Live demo · Pit strategy simulator</div>
+      </div>
+      <div class="f1-controls">
+        <div class="slider-row">
+          <label>Pit stops</label>
+          <input type="range" id="f1Stops" min="1" max="4" value="2" step="1">
+          <div class="slider-value" id="f1StopsVal">2</div>
+        </div>
+        <div class="slider-row">
+          <label>Avg stop (s)</label>
+          <input type="range" id="f1Time" min="2.0" max="4.0" value="2.5" step="0.1">
+          <div class="slider-value" id="f1TimeVal">2.5s</div>
+        </div>
+        <div class="slider-row">
+          <label>Tire wear</label>
+          <input type="range" id="f1Wear" min="0" max="100" value="40" step="5">
+          <div class="slider-value" id="f1WearVal">40%</div>
+        </div>
+      </div>
+      <div class="f1-result">
+        <div class="f1-stat">
+          <div class="f1-stat-label">Est. total pit loss</div>
+          <div class="f1-stat-value" id="f1PitLoss">5.0<small>s</small></div>
+        </div>
+        <div class="f1-stat">
+          <div class="f1-stat-label">Est. tire gain</div>
+          <div class="f1-stat-value" id="f1TireGain">16.0<small>s</small></div>
+        </div>
+        <div class="f1-stat">
+          <div class="f1-stat-label">Net position Δ</div>
+          <div class="f1-stat-value" id="f1Net">+11.0<small>s</small></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="project-row">
+      <div class="project-row-label">PLOs met</div>
+      <div class="project-row-content"><div class="plo-badges"><span class="plo-badge">PLO 1</span><span class="plo-badge">PLO 3</span><span class="plo-badge">PLO 4</span><span class="plo-badge">PLO 5</span></div></div>
+    </div>
+  </div>
+
+  <!-- PROJECT 3: BERT -->
+  <div class="reveal project" id="project-bert">
+    <div class="project-header">
+      <h3>Stock Volatility Prediction with BERT</h3>
+      <div class="project-course">IST 707 · Applied ML</div>
+    </div>
+    <div class="project-context">Transformer-based NLP on earnings call transcripts</div>
+    <div class="project-row">
+      <div class="project-row-label">Goals</div>
+      <div class="project-row-content muted">Predict short-term stock volatility from earnings call language — testing whether transformer embeddings capture signal beyond traditional sentiment features.</div>
+    </div>
+    <div class="project-row">
+      <div class="project-row-label">Stack</div>
+      <div class="project-row-content"><div class="tech-stack"><span class="tech-tag">Python</span><span class="tech-tag">PyTorch</span><span class="tech-tag">BERT</span><span class="tech-tag">HuggingFace</span><span class="tech-tag">Sklearn</span></div></div>
+    </div>
+    <div class="project-row">
+      <div class="project-row-label">Insight</div>
+      <div class="project-row-content muted">BERT embeddings meaningfully outperformed bag-of-words and VADER-sentiment baselines on post-earnings volatility windows — context-aware language models add real signal to financial NLP.</div>
+    </div>
+
+    <!-- BERT INTERACTIVE DEMO -->
+    <div class="demo-box">
+      <div class="demo-header">
+        <div class="demo-title">Live demo · Model comparison</div>
+      </div>
+      <div class="bert-chart-wrap">
+        <canvas id="bertChart"></canvas>
+      </div>
+      <div class="bert-controls">
+        <button class="bert-btn active" data-metric="rmse">RMSE</button>
+        <button class="bert-btn" data-metric="r2">R²</button>
+        <button class="bert-btn" data-metric="mae">MAE</button>
+      </div>
+      <div class="bert-legend">
+        <div class="bert-legend-item"><span class="bert-legend-dot" style="background:#6a6a64;"></span>Bag-of-Words</div>
+        <div class="bert-legend-item"><span class="bert-legend-dot" style="background:#9a9a94;"></span>VADER sentiment</div>
+        <div class="bert-legend-item"><span class="bert-legend-dot" style="background:#00ff9d;"></span>BERT (ours)</div>
+      </div>
+    </div>
+
+    <div class="project-row">
+      <div class="project-row-label">PLOs met</div>
+      <div class="project-row-content"><div class="plo-badges"><span class="plo-badge">PLO 1</span><span class="plo-badge">PLO 2</span><span class="plo-badge">PLO 3</span><span class="plo-badge">PLO 4</span><span class="plo-badge">PLO 6</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- TRACK -->
+<section id="track">
+  <div class="reveal">
+    <div class="section-label">03 / Track</div>
+    <h2 class="section-title"><em>Data Science</em> track.</h2>
+    <p class="section-intro">Why I chose it, and what it gave me.</p>
+  </div>
+  <div class="reveal track-box">
+    <h3>I wanted to <em>build</em> models, not just read them.</h3>
+    <p>The Data Science track pushed me into the actual mechanics — ML, NLP, programming, statistics — instead of staying on the dashboard side. That's where the work I want to do lives, and pairing it with my Lean Six Sigma background means I can both build the system and explain why it matters to the business.</p>
+  </div>
+</section>
+
+<!-- VIDEO -->
+<section id="video">
+  <div class="reveal">
+    <div class="section-label">04 / Video presentation</div>
+    <h2 class="section-title">Program <em>reflections</em>.</h2>
+    <p class="section-intro">A short 1–2 minute reflection on the program, what I learned, and what surprised me.</p>
+  </div>
+  <div class="reveal video-placeholder">
+    <div class="video-placeholder-icon">▶</div>
+    <h3>Video coming soon</h3>
+    <p>Embed target: 60–120 seconds. Will cover track selection, highlight projects, and takeaways for a non-expert audience.</p>
+  </div>
+</section>
+
+<!-- BLOG -->
+<section id="blog">
+  <div class="reveal">
+    <div class="section-label">05 / Blog</div>
+    <h2 class="section-title">Reflective <em>writing</em>.</h2>
+    <p class="section-intro">A ~3,000 word reflection covering expectations vs. reality, the learning outcomes, favorite classes, and biggest surprises.</p>
+  </div>
+  <div class="reveal">
+    <div class="blog-stub"><div class="blog-stub-title">What I expected vs. what I learned</div><div class="blog-stub-meta">Draft · 600 words</div></div>
+    <div class="blog-stub"><div class="blog-stub-title">Six outcomes, three projects — how the math worked out</div><div class="blog-stub-meta">Draft · 900 words</div></div>
+    <div class="blog-stub"><div class="blog-stub-title">Favorite class, and why it wasn't the one I expected</div><div class="blog-stub-meta">Draft · 500 words</div></div>
+    <div class="blog-stub"><div class="blog-stub-title">The internship that changed my trajectory</div><div class="blog-stub-meta">Draft · 700 words</div></div>
+    <div class="blog-stub"><div class="blog-stub-title">Biggest surprises from the program</div><div class="blog-stub-meta">Draft · 300 words</div></div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" style="border-bottom:none;">
+  <div class="reveal contact-box">
+    <div>
+      <h2>Let's <em>connect</em>.</h2>
+      <p>Targeting Data Analyst & Data Science roles · Syracuse, NY</p>
+    </div>
+    <div class="contact-links">
+      <a href="https://www.linkedin.com/in/aditya-marathe99/" target="_blank" class="btn-primary">LinkedIn →</a>
+      <a href="mailto:amarathe@syr.edu" class="btn-ghost">Email</a>
+    </div>
+  </div>
+</section>
+
+<footer>© 2026 Aditya Marathe · IST 782 Portfolio · Syracuse University iSchool</footer>
+
+<!-- COMMAND PALETTE -->
+<div class="cmd-overlay" id="cmdOverlay">
+  <div class="cmd-panel" onclick="event.stopPropagation()">
+    <div class="cmd-input-wrap">
+      <input type="text" class="cmd-input" id="cmdInput" placeholder="Jump to a section, project, or link…" autocomplete="off">
+    </div>
+    <div class="cmd-list" id="cmdList"></div>
+    <div class="cmd-footer">
+      <span><kbd>↑↓</kbd> navigate</span>
+      <span><kbd>↵</kbd> select</span>
+      <span><kbd>esc</kbd> close</span>
+    </div>
+  </div>
+</div>
+
+<script>
+// ============ CURSOR GLOW ============
+const glow = document.getElementById('cursorGlow');
+document.addEventListener('mousemove', (e) => {
+  glow.style.left = e.clientX + 'px';
+  glow.style.top = e.clientY + 'px';
+});
+
+// ============ PARTICLE NETWORK (HERO) ============
+const canvas = document.getElementById('particles');
+const ctx = canvas.getContext('2d');
+let particles = [];
+const PARTICLE_COUNT = 60;
+
+function resizeCanvas() {
+  const parent = canvas.parentElement;
+  canvas.width = parent.offsetWidth;
+  canvas.height = parent.offsetHeight;
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+function initParticles() {
+  particles = [];
+  for (let i = 0; i < PARTICLE_COUNT; i++) {
+    particles.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      vx: (Math.random() - 0.5) * 0.3,
+      vy: (Math.random() - 0.5) * 0.3,
+      r: Math.random() * 1.5 + 0.5
+    });
+  }
+}
+initParticles();
+
+let mouseX = -1000, mouseY = -1000;
+canvas.addEventListener('mousemove', e => {
+  const rect = canvas.getBoundingClientRect();
+  mouseX = e.clientX - rect.left;
+  mouseY = e.clientY - rect.top;
+});
+
+function animateParticles() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  particles.forEach((p, i) => {
+    p.x += p.vx;
+    p.y += p.vy;
+    if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+    if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+
+    // Mouse interaction
+    const dx = mouseX - p.x, dy = mouseY - p.y;
+    const dist = Math.sqrt(dx*dx + dy*dy);
+    if (dist < 120) {
+      p.x -= dx / dist * 0.5;
+      p.y -= dy / dist * 0.5;
+    }
+
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(0, 255, 157, 0.5)';
+    ctx.fill();
+
+    // Draw lines to nearby particles
+    for (let j = i + 1; j < particles.length; j++) {
+      const p2 = particles[j];
+      const d = Math.sqrt((p.x - p2.x)**2 + (p.y - p2.y)**2);
+      if (d < 140) {
+        ctx.beginPath();
+        ctx.moveTo(p.x, p.y);
+        ctx.lineTo(p2.x, p2.y);
+        ctx.strokeStyle = `rgba(0, 255, 157, ${0.15 * (1 - d/140)})`;
+        ctx.lineWidth = 0.5;
+        ctx.stroke();
+      }
+    }
+  });
+  requestAnimationFrame(animateParticles);
+}
+animateParticles();
+
+// ============ TYPING EFFECT ============
+const typedEl = document.getElementById('typed');
+const phrases = [
+  'data_scientist.py --track="data science"',
+  'ml + nlp + process improvement',
+  'msads @ syracuse.ischool',
+  'open to opportunities · may 2026'
+];
+let phraseIdx = 0, charIdx = 0, isDeleting = false;
+
+function typeLoop() {
+  const current = phrases[phraseIdx];
+  if (!isDeleting) {
+    typedEl.textContent = current.slice(0, charIdx + 1);
+    charIdx++;
+    if (charIdx === current.length) {
+      isDeleting = true;
+      setTimeout(typeLoop, 2500);
+      return;
+    }
+    setTimeout(typeLoop, 45 + Math.random() * 40);
+  } else {
+    typedEl.textContent = current.slice(0, charIdx - 1);
+    charIdx--;
+    if (charIdx === 0) {
+      isDeleting = false;
+      phraseIdx = (phraseIdx + 1) % phrases.length;
+    }
+    setTimeout(typeLoop, 25);
+  }
+}
+setTimeout(typeLoop, 1200);
+
+// ============ SCROLL REVEAL ============
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -80px 0px' });
+reveals.forEach(el => observer.observe(el));
+
+// ============ PLO CONNECTOR MAP ============
+// Reposition PLO 6 properly
+const ploPositions = {
+  plo1: [140, 50], plo2: [140, 115], plo3: [140, 180],
+  plo4: [140, 245], plo5: [140, 310], plo6: [140, 375]
+};
+const projPositions = {
+  loretto: [640, 90], f1: [640, 210], bert: [640, 330]
+};
+// Re-set positions
+document.querySelectorAll('.node-plo').forEach(n => {
+  const id = n.dataset.id;
+  if (ploPositions[id]) n.setAttribute('transform', `translate(${ploPositions[id][0]},${ploPositions[id][1]})`);
+});
+document.querySelectorAll('.node-project').forEach(n => {
+  const id = n.dataset.id;
+  if (projPositions[id]) n.setAttribute('transform', `translate(${projPositions[id][0]},${projPositions[id][1]})`);
+});
+
+// Adjust SVG viewbox
+document.getElementById('ploSvg').setAttribute('viewBox', '0 0 800 430');
+
+// Build connections
+const connections = [
+  ['plo1', 'loretto'], ['plo1', 'f1'], ['plo1', 'bert'],
+  ['plo2', 'loretto'], ['plo2', 'bert'],
+  ['plo3', 'f1'], ['plo3', 'bert'],
+  ['plo4', 'loretto'], ['plo4', 'f1'], ['plo4', 'bert'],
+  ['plo5', 'loretto'], ['plo5', 'f1'],
+  ['plo6', 'loretto'], ['plo6', 'bert'],
+];
+const linksGroup = document.getElementById('links');
+connections.forEach(([ploId, projId]) => {
+  const [x1, y1] = ploPositions[ploId];
+  const [x2, y2] = projPositions[projId];
+  const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+  const midX = (x1 + x2) / 2;
+  path.setAttribute('d', `M ${x1+28} ${y1} C ${midX} ${y1}, ${midX} ${y2}, ${x2-90} ${y2}`);
+  path.setAttribute('class', 'link');
+  path.dataset.plo = ploId;
+  path.dataset.project = projId;
+  linksGroup.appendChild(path);
+});
+
+// Interactivity
+function highlightMap(ploId, projId) {
+  document.querySelectorAll('.link').forEach(l => {
+    const match = (ploId && l.dataset.plo === ploId) || (projId && l.dataset.project === projId);
+    l.classList.toggle('active', match);
+  });
+  document.querySelectorAll('.node-plo').forEach(n => {
+    const isSelf = ploId && n.dataset.id === ploId;
+    const connectedToProject = projId && n.dataset.projects.split(',').includes(projId);
+    n.classList.toggle('active', isSelf || connectedToProject);
+  });
+  document.querySelectorAll('.node-project').forEach(n => {
+    const isSelf = projId && n.dataset.id === projId;
+    const connectedToPlo = ploId && n.dataset.plos.split(',').includes(ploId);
+    n.classList.toggle('active', isSelf || connectedToPlo);
+  });
+}
+
+document.querySelectorAll('.node-plo').forEach(n => {
+  n.addEventListener('mouseenter', () => highlightMap(n.dataset.id, null));
+  n.addEventListener('mouseleave', () => highlightMap(null, null));
+});
+document.querySelectorAll('.node-project').forEach(n => {
+  n.addEventListener('mouseenter', () => highlightMap(null, n.dataset.id));
+  n.addEventListener('mouseleave', () => highlightMap(null, null));
+  n.addEventListener('click', () => {
+    const el = document.getElementById(`project-${n.dataset.id}`);
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+});
+
+// ============ F1 SIMULATOR ============
+const f1Stops = document.getElementById('f1Stops');
+const f1Time = document.getElementById('f1Time');
+const f1Wear = document.getElementById('f1Wear');
+
+function updateF1() {
+  const stops = parseInt(f1Stops.value);
+  const time = parseFloat(f1Time.value);
+  const wear = parseInt(f1Wear.value);
+
+  const pitLoss = stops * time;
+  // Heuristic: more stops + high wear = bigger tire gain; diminishing returns
+  const tireGain = (wear / 100) * (stops * 12) * (1 - 0.12 * (stops - 1));
+  const net = tireGain - pitLoss;
+
+  document.getElementById('f1StopsVal').textContent = stops;
+  document.getElementById('f1TimeVal').textContent = time.toFixed(1) + 's';
+  document.getElementById('f1WearVal').textContent = wear + '%';
+  document.getElementById('f1PitLoss').innerHTML = pitLoss.toFixed(1) + '<small>s</small>';
+  document.getElementById('f1TireGain').innerHTML = tireGain.toFixed(1) + '<small>s</small>';
+  const sign = net >= 0 ? '+' : '';
+  document.getElementById('f1Net').innerHTML = sign + net.toFixed(1) + '<small>s</small>';
+  document.getElementById('f1Net').style.color = net >= 0 ? 'var(--accent)' : '#ff6b6b';
+}
+
+[f1Stops, f1Time, f1Wear].forEach(el => el.addEventListener('input', updateF1));
+updateF1();
+
+// ============ BERT CHART ============
+const bertData = {
+  rmse: { bow: 0.089, vader: 0.082, bert: 0.064, label: 'RMSE (lower = better)' },
+  r2:   { bow: 0.31,  vader: 0.38,  bert: 0.52,  label: 'R² (higher = better)' },
+  mae:  { bow: 0.071, vader: 0.066, bert: 0.048, label: 'MAE (lower = better)' }
+};
+
+const bertCtx = document.getElementById('bertChart').getContext('2d');
+let bertChart = null;
+
+function renderBertChart(metric) {
+  const d = bertData[metric];
+  if (bertChart) bertChart.destroy();
+  bertChart = new Chart(bertCtx, {
+    type: 'bar',
+    data: {
+      labels: ['Bag-of-Words', 'VADER', 'BERT (ours)'],
+      datasets: [{
+        data: [d.bow, d.vader, d.bert],
+        backgroundColor: ['#6a6a64', '#9a9a94', '#00ff9d'],
+        borderRadius: 6,
+        barThickness: 48
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { duration: 700, easing: 'easeOutQuart' },
+      plugins: {
+        legend: { display: false },
+        title: { display: true, text: d.label, color: '#9a9a94', font: { family: 'JetBrains Mono', size: 11, weight: 400 }, padding: { bottom: 12 } },
+        tooltip: {
+          backgroundColor: '#111110', titleColor: '#00ff9d', bodyColor: '#f0efea',
+          borderColor: 'rgba(255,255,255,0.18)', borderWidth: 1, padding: 10,
+          titleFont: { family: 'JetBrains Mono', size: 11 }, bodyFont: { family: 'Inter', size: 12 }
+        }
+      },
+      scales: {
+        x: { ticks: { color: '#9a9a94', font: { family: 'JetBrains Mono', size: 11 } }, grid: { display: false } },
+        y: { ticks: { color: '#6a6a64', font: { family: 'JetBrains Mono', size: 10 } }, grid: { color: 'rgba(255,255,255,0.04)' } }
+      }
+    }
+  });
+}
+renderBertChart('rmse');
+
+document.querySelectorAll('.bert-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.bert-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderBertChart(btn.dataset.metric);
+  });
+});
+
+// ============ COMMAND PALETTE ============
+const cmdItems = [
+  { text: 'Overview', hint: 'Section', type: 'scroll', target: '#overview', icon: '§' },
+  { text: 'Projects', hint: 'Section', type: 'scroll', target: '#projects', icon: '§' },
+  { text: 'Track', hint: 'Section', type: 'scroll', target: '#track', icon: '§' },
+  { text: 'Video', hint: 'Section', type: 'scroll', target: '#video', icon: '§' },
+  { text: 'Blog', hint: 'Section', type: 'scroll', target: '#blog', icon: '§' },
+  { text: 'Contact', hint: 'Section', type: 'scroll', target: '#contact', icon: '§' },
+  { text: 'Loretto — Patient Feedback Automation', hint: 'Project', type: 'scroll', target: '#project-loretto', icon: '▸' },
+  { text: 'F1 Race Analytics', hint: 'Project', type: 'scroll', target: '#project-f1', icon: '▸' },
+  { text: 'BERT Stock Volatility', hint: 'Project', type: 'scroll', target: '#project-bert', icon: '▸' },
+  { text: 'Open LinkedIn', hint: 'External', type: 'external', target: 'https://www.linkedin.com/in/aditya-marathe99/', icon: '↗' },
+  { text: 'Email me', hint: 'External', type: 'external', target: 'mailto:amarathe@syr.edu', icon: '↗' },
+];
+const overlay = document.getElementById('cmdOverlay');
+const cmdInput = document.getElementById('cmdInput');
+const cmdList = document.getElementById('cmdList');
+let selectedIdx = 0, filtered = cmdItems.slice();
+
+function renderCmdList() {
+  cmdList.innerHTML = '';
+  filtered.forEach((item, i) => {
+    const div = document.createElement('div');
+    div.className = 'cmd-item' + (i === selectedIdx ? ' selected' : '');
+    div.innerHTML = `
+      <div class="cmd-item-left">
+        <span class="cmd-item-icon">${item.icon}</span>
+        <span class="cmd-item-text">${item.text}</span>
+      </div>
+      <span class="cmd-item-hint">${item.hint}</span>`;
+    div.addEventListener('click', () => runCmd(item));
+    cmdList.appendChild(div);
+  });
+}
+
+function filterCmd() {
+  const q = cmdInput.value.toLowerCase();
+  filtered = cmdItems.filter(i => i.text.toLowerCase().includes(q) || i.hint.toLowerCase().includes(q));
+  selectedIdx = 0;
+  renderCmdList();
+}
+
+function runCmd(item) {
+  if (item.type === 'scroll') {
+    const el = document.querySelector(item.target);
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  } else if (item.type === 'external') {
+    window.open(item.target, '_blank');
+  }
+  closePalette();
+}
+
+function openPalette() {
+  overlay.classList.add('open');
+  cmdInput.value = '';
+  filtered = cmdItems.slice();
+  selectedIdx = 0;
+  renderCmdList();
+  setTimeout(() => cmdInput.focus(), 50);
+}
+function closePalette() { overlay.classList.remove('open'); }
+window.openPalette = openPalette;
+
+overlay.addEventListener('click', closePalette);
+cmdInput.addEventListener('input', filterCmd);
+cmdInput.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowDown') { e.preventDefault(); selectedIdx = Math.min(selectedIdx + 1, filtered.length - 1); renderCmdList(); }
+  else if (e.key === 'ArrowUp') { e.preventDefault(); selectedIdx = Math.max(selectedIdx - 1, 0); renderCmdList(); }
+  else if (e.key === 'Enter') { e.preventDefault(); if (filtered[selectedIdx]) runCmd(filtered[selectedIdx]); }
+  else if (e.key === 'Escape') closePalette();
+});
+
+document.addEventListener('keydown', (e) => {
+  if ((e.metaKey || e.ctrlKey) && e.key === 'k') { e.preventDefault(); openPalette(); }
+  else if (e.key === 'Escape' && overlay.classList.contains('open')) closePalette();
+});
+
+renderCmdList();
+</script>
+</body>
+</html>
