@@ -1,984 +1,715 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Aditya Marathe — IST 782 Portfolio</title>
-<meta name="description" content="M.S. Applied Data Science portfolio · Syracuse University iSchool.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;1,9..144,300;1,9..144,400&family=JetBrains+Mono:wght@400;500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
-<style>
-  *{box-sizing:border-box;margin:0;padding:0;}
-  :root{
-    --accent:#00ff9d;
-    --accent-dim:#00cc7e;
-    --accent-glow:rgba(0,255,157,0.15);
-    --accent-bg:rgba(0,255,157,0.06);
-    --text:#f0efea;
-    --text-dim:#9a9a94;
-    --muted:#6a6a64;
-    --border:rgba(255,255,255,0.08);
-    --border-strong:rgba(255,255,255,0.18);
-    --card:rgba(255,255,255,0.02);
-    --card-hover:rgba(255,255,255,0.04);
-    --bg:#0a0a08;
-    --bg-soft:#111110;
-  }
-  html{scroll-behavior:smooth;}
-  body{font-family:'Inter',sans-serif;color:var(--text);background:var(--bg);line-height:1.65;font-weight:300;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aditya Marathe — Data Scientist & Data Analyst</title>
+  <meta name="description" content="Aditya Marathe — Data Scientist & Data Analyst. MS Applied Data Science, Syracuse University. Healthcare analytics, churn modeling, and BI dashboards that drive business impact." />
+  <meta name="author" content="Aditya Marathe" />
+  <!-- Open Graph / social share -->
+  <meta property="og:title" content="Aditya Marathe — Data Scientist & Data Analyst" />
+  <meta property="og:description" content="MS Applied Data Science @ Syracuse. End-to-end analytics: pipelines, predictive models, and BI dashboards." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://aditya768.github.io/Portfolio/" />
+  <!-- <meta property="og:image" content="https://aditya768.github.io/Portfolio/preview.png" /> -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <!-- Favicon: a simple spider emoji. Replace with a real .ico/.png if you like. -->
+  <link rel="icon" href="data:image/svg+xml,&lt;svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22&gt;&lt;text y=%22.9em%22 font-size=%2290%22&gt;🕷️&lt;/text&gt;&lt;/svg&gt;" />
 
-  ::selection{background:var(--accent);color:var(--bg);}
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone@7/babel.min.js"></script>
 
-  /* Custom cursor glow */
-  .cursor-glow{position:fixed;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,var(--accent-glow) 0%,transparent 70%);pointer-events:none;z-index:1;transform:translate(-50%,-50%);transition:opacity 0.3s;mix-blend-mode:screen;}
-
-  /* Grain overlay */
-  body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:2;opacity:0.03;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9'/></filter><rect width='200' height='200' filter='url(%23n)' opacity='1'/></svg>");}
-
-  /* Particle canvas */
-  #particles{position:absolute;top:0;left:0;width:100%;height:100%;z-index:0;}
-
-  /* Nav */
-  nav{display:flex;align-items:center;justify-content:space-between;padding:1.25rem 2rem;position:fixed;top:0;left:0;right:0;z-index:50;backdrop-filter:blur(12px) saturate(1.2);background:rgba(10,10,8,0.7);border-bottom:0.5px solid var(--border);}
-  .logo{font-family:'Fraunces',serif;font-size:17px;font-weight:400;letter-spacing:-0.3px;display:flex;align-items:center;gap:8px;}
-  .logo-dot{width:8px;height:8px;background:var(--accent);border-radius:50%;box-shadow:0 0 12px var(--accent);animation:pulse 2s infinite;}
-  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.4;}}
-  .nav-right{display:flex;align-items:center;gap:1.5rem;}
-  .nav-links{display:flex;gap:1.5rem;}
-  .nav-links a{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-dim);text-decoration:none;cursor:pointer;transition:color 0.2s;letter-spacing:0.05em;text-transform:uppercase;position:relative;}
-  .nav-links a::before{content:"";position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--accent);transition:width 0.3s;}
-  .nav-links a:hover{color:var(--accent);}
-  .nav-links a:hover::before{width:100%;}
-  .cmd-btn{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-dim);background:transparent;border:0.5px solid var(--border-strong);border-radius:6px;padding:5px 10px;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:6px;}
-  .cmd-btn:hover{color:var(--accent);border-color:var(--accent);}
-  .cmd-btn kbd{background:var(--border);padding:1px 5px;border-radius:3px;font-size:10px;}
-  @media(max-width:720px){.nav-links{display:none;}}
-
-  /* HERO */
-  .hero-wrap{position:relative;min-height:100vh;display:flex;align-items:center;padding:6rem 2rem 4rem;overflow:hidden;}
-  .hero{position:relative;z-index:3;max-width:1100px;margin:0 auto;width:100%;}
-  .hero-meta{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--accent);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:1.5rem;display:flex;align-items:center;gap:12px;opacity:0;animation:fadeUp 0.8s 0.2s forwards;}
-  .hero-meta::before{content:"";width:32px;height:1px;background:var(--accent);display:inline-block;}
-  .hero h1{font-family:'Fraunces',serif;font-size:clamp(3rem,8vw,7rem);line-height:0.95;letter-spacing:-3px;margin-bottom:1.5rem;font-weight:300;opacity:0;animation:fadeUp 1s 0.4s forwards;}
-  .hero h1 .line{display:block;}
-  .hero h1 em{font-style:italic;font-weight:300;background:linear-gradient(120deg,var(--accent) 0%,#fff 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
-  .typed-wrap{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--text-dim);margin-bottom:2rem;opacity:0;animation:fadeUp 0.8s 0.8s forwards;min-height:24px;}
-  .typed-wrap::before{content:"> ";color:var(--accent);}
-  .cursor{display:inline-block;width:8px;height:14px;background:var(--accent);margin-left:2px;animation:blink 1s infinite;vertical-align:middle;}
-  @keyframes blink{0%,50%{opacity:1;}51%,100%{opacity:0;}}
-  .hero-sub{font-size:1.05rem;color:var(--text-dim);max-width:620px;line-height:1.75;margin-bottom:2.5rem;opacity:0;animation:fadeUp 0.8s 1s forwards;font-weight:300;}
-  .hero-ctas{display:flex;gap:12px;flex-wrap:wrap;opacity:0;animation:fadeUp 0.8s 1.2s forwards;}
-  .btn-primary{background:var(--accent);color:var(--bg);border:none;padding:13px 26px;border-radius:6px;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:500;cursor:pointer;text-decoration:none;transition:all 0.2s;letter-spacing:0.05em;text-transform:uppercase;position:relative;overflow:hidden;display:inline-flex;align-items:center;gap:8px;}
-  .btn-primary::before{content:"";position:absolute;inset:0;background:linear-gradient(120deg,transparent,rgba(255,255,255,0.3),transparent);transform:translateX(-100%);transition:transform 0.6s;}
-  .btn-primary:hover::before{transform:translateX(100%);}
-  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 40px var(--accent-glow);}
-  .btn-ghost{background:transparent;color:var(--text);border:0.5px solid var(--border-strong);padding:13px 26px;border-radius:6px;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:500;cursor:pointer;text-decoration:none;transition:all 0.2s;display:inline-flex;align-items:center;gap:8px;letter-spacing:0.05em;text-transform:uppercase;}
-  .btn-ghost:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-2px);}
-
-  .scroll-hint{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:0.2em;text-transform:uppercase;opacity:0;animation:fadeUp 0.8s 1.6s forwards;display:flex;flex-direction:column;align-items:center;gap:8px;}
-  .scroll-hint::after{content:"";width:1px;height:30px;background:linear-gradient(to bottom,var(--accent),transparent);animation:scrollDown 2s infinite;}
-  @keyframes scrollDown{0%{transform:scaleY(0);transform-origin:top;}50%{transform:scaleY(1);transform-origin:top;}51%{transform-origin:bottom;}100%{transform:scaleY(0);transform-origin:bottom;}}
-
-  @keyframes fadeUp{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
-
-  /* Info strip */
-  .info-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));border-top:0.5px solid var(--border);border-bottom:0.5px solid var(--border);background:var(--bg-soft);position:relative;z-index:5;}
-  .info-cell{padding:1.5rem 2rem;border-right:0.5px solid var(--border);transition:background 0.3s;}
-  .info-cell:hover{background:var(--card);}
-  .info-cell:last-child{border-right:none;}
-  .info-label{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:8px;}
-  .info-value{font-size:15px;font-weight:400;font-family:'Fraunces',serif;}
-  .info-value small{color:var(--text-dim);font-weight:300;font-family:'Inter',sans-serif;font-size:12px;display:block;margin-top:2px;}
-
-  /* Sections */
-  section{max-width:1100px;margin:0 auto;padding:6rem 2rem;border-bottom:0.5px solid var(--border);position:relative;}
-  .section-label{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--accent);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:1rem;display:flex;align-items:center;gap:12px;}
-  .section-label::before{content:"§";color:var(--muted);font-family:'Fraunces',serif;font-style:italic;}
-  .section-title{font-family:'Fraunces',serif;font-size:clamp(2rem,5vw,3.25rem);margin-bottom:1rem;letter-spacing:-1.5px;font-weight:300;line-height:1.1;}
-  .section-title em{font-style:italic;color:var(--accent);}
-  .section-intro{font-size:1.05rem;color:var(--text-dim);max-width:720px;line-height:1.75;margin-bottom:3.5rem;font-weight:300;}
-
-  /* Reveal animations */
-  .reveal{opacity:0;transform:translateY(40px);transition:opacity 0.8s cubic-bezier(0.2,0.8,0.2,1),transform 0.8s cubic-bezier(0.2,0.8,0.2,1);}
-  .reveal.visible{opacity:1;transform:translateY(0);}
-
-  /* PLO Connector Map */
-  .plo-map{background:var(--card);border:0.5px solid var(--border);border-radius:16px;padding:2rem;margin-bottom:2.5rem;position:relative;overflow:hidden;}
-  .plo-map-svg{width:100%;height:auto;display:block;max-width:900px;margin:0 auto;}
-  .node-plo{cursor:pointer;transition:all 0.3s;}
-  .node-plo circle{fill:var(--bg-soft);stroke:var(--border-strong);stroke-width:1;transition:all 0.3s;}
-  .node-plo text{fill:var(--text);font-family:'Fraunces',serif;font-size:14px;font-weight:400;}
-  .node-plo .label{fill:var(--text-dim);font-family:'Inter',sans-serif;font-size:10px;font-weight:400;}
-  .node-plo:hover circle,.node-plo.active circle{fill:var(--accent-bg);stroke:var(--accent);stroke-width:1.5;}
-  .node-plo:hover text,.node-plo.active text{fill:var(--accent);}
-  .node-project{cursor:pointer;}
-  .node-project rect{fill:var(--bg-soft);stroke:var(--border-strong);stroke-width:1;transition:all 0.3s;rx:8;}
-  .node-project text{fill:var(--text);font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:0.08em;}
-  .node-project:hover rect,.node-project.active rect{fill:var(--accent-bg);stroke:var(--accent);}
-  .node-project:hover text,.node-project.active text{fill:var(--accent);}
-  .link{stroke:var(--border);stroke-width:1;fill:none;transition:all 0.4s;}
-  .link.active{stroke:var(--accent);stroke-width:1.5;filter:drop-shadow(0 0 4px var(--accent-glow));}
-  .plo-map-hint{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);text-align:center;margin-top:1rem;letter-spacing:0.08em;text-transform:uppercase;}
-
-  /* PLO grid */
-  .plo-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1px;background:var(--border);border:0.5px solid var(--border);border-radius:12px;overflow:hidden;}
-  .plo-card{background:var(--bg);padding:1.75rem;transition:all 0.3s;cursor:pointer;position:relative;overflow:hidden;}
-  .plo-card::before{content:"";position:absolute;top:0;left:0;width:0;height:2px;background:var(--accent);transition:width 0.4s;}
-  .plo-card:hover{background:var(--card-hover);}
-  .plo-card:hover::before{width:100%;}
-  .plo-num{font-family:'Fraunces',serif;font-size:42px;color:var(--accent);font-style:italic;line-height:1;margin-bottom:12px;font-weight:300;}
-  .plo-card h4{font-size:15px;font-weight:500;margin-bottom:8px;letter-spacing:-0.2px;}
-  .plo-card p{font-size:13px;color:var(--text-dim);line-height:1.65;font-weight:300;}
-  .plo-projects{margin-top:14px;display:flex;gap:5px;flex-wrap:wrap;}
-  .plo-tag{font-family:'JetBrains Mono',monospace;font-size:9px;background:var(--accent-bg);color:var(--accent);padding:3px 8px;border-radius:3px;letter-spacing:0.08em;text-transform:uppercase;}
-
-  /* Project cards */
-  .project{background:var(--card);border:0.5px solid var(--border);border-radius:14px;padding:2.25rem;margin-bottom:1.25rem;transition:all 0.4s;position:relative;overflow:hidden;}
-  .project::before{content:"";position:absolute;top:0;left:-100%;width:100%;height:1px;background:linear-gradient(90deg,transparent,var(--accent),transparent);transition:left 0.8s;}
-  .project:hover{border-color:var(--border-strong);background:var(--card-hover);}
-  .project:hover::before{left:100%;}
-  .project-header{display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;margin-bottom:0.5rem;flex-wrap:wrap;}
-  .project-header h3{font-family:'Fraunces',serif;font-size:1.75rem;font-weight:300;letter-spacing:-0.5px;line-height:1.2;}
-  .project-course{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:0.08em;padding-top:8px;white-space:nowrap;}
-  .project-context{font-size:13px;color:var(--accent);margin-bottom:1.5rem;font-weight:500;font-family:'JetBrains Mono',monospace;letter-spacing:0.03em;}
-  .project-row{display:grid;grid-template-columns:120px 1fr;gap:1.5rem;padding:0.9rem 0;border-top:0.5px solid var(--border);}
-  @media(max-width:600px){.project-row{grid-template-columns:1fr;gap:0.3rem;}}
-  .project-row-label{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:0.12em;text-transform:uppercase;padding-top:3px;}
-  .project-row-content{font-size:14px;color:var(--text);line-height:1.7;font-weight:300;}
-  .project-row-content.muted{color:var(--text-dim);}
-  .tech-stack{display:flex;gap:6px;flex-wrap:wrap;}
-  .tech-tag{font-family:'JetBrains Mono',monospace;font-size:11px;background:var(--accent-bg);color:var(--accent);padding:4px 10px;border-radius:4px;border:0.5px solid transparent;transition:all 0.2s;}
-  .tech-tag:hover{border-color:var(--accent);transform:translateY(-1px);}
-  .plo-badges{display:flex;gap:6px;flex-wrap:wrap;}
-  .plo-badge{font-family:'JetBrains Mono',monospace;font-size:10px;background:var(--bg-soft);border:0.5px solid var(--border-strong);color:var(--text);padding:3px 8px;border-radius:3px;}
-
-  /* Interactive demos */
-  .demo-box{background:var(--bg-soft);border:0.5px solid var(--border);border-radius:10px;padding:1.5rem;margin-top:1rem;}
-  .demo-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;}
-  .demo-title{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:0.12em;text-transform:uppercase;display:flex;align-items:center;gap:6px;}
-  .demo-title::before{content:"";width:6px;height:6px;background:var(--accent);border-radius:50%;box-shadow:0 0 8px var(--accent);animation:pulse 2s infinite;}
-
-  /* F1 demo */
-  .f1-controls{display:flex;flex-direction:column;gap:14px;margin-bottom:1rem;}
-  .slider-row{display:flex;align-items:center;gap:14px;}
-  .slider-row label{font-size:12px;color:var(--text-dim);min-width:100px;font-family:'JetBrains Mono',monospace;letter-spacing:0.05em;}
-  .slider-row input[type=range]{flex:1;-webkit-appearance:none;appearance:none;height:2px;background:var(--border-strong);border-radius:1px;outline:none;}
-  .slider-row input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:16px;height:16px;background:var(--accent);border-radius:50%;cursor:pointer;box-shadow:0 0 12px var(--accent-glow);}
-  .slider-row input[type=range]::-moz-range-thumb{width:16px;height:16px;background:var(--accent);border-radius:50%;cursor:pointer;border:none;}
-  .slider-value{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--accent);min-width:80px;text-align:right;font-weight:500;}
-  .f1-result{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:1rem;padding-top:1rem;border-top:0.5px solid var(--border);}
-  .f1-stat{text-align:left;}
-  .f1-stat-label{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:6px;}
-  .f1-stat-value{font-family:'Fraunces',serif;font-size:1.75rem;font-weight:300;color:var(--accent);line-height:1;}
-  .f1-stat-value small{font-size:12px;color:var(--text-dim);font-family:'Inter',sans-serif;font-weight:300;margin-left:2px;}
-
-  /* BERT chart */
-  .bert-chart-wrap{position:relative;height:260px;margin-top:0.5rem;}
-  .bert-legend{display:flex;gap:1.5rem;justify-content:center;margin-top:1rem;flex-wrap:wrap;}
-  .bert-legend-item{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text-dim);font-family:'JetBrains Mono',monospace;}
-  .bert-legend-dot{width:10px;height:10px;border-radius:50%;}
-  .bert-controls{display:flex;gap:8px;justify-content:center;margin-top:0.75rem;flex-wrap:wrap;}
-  .bert-btn{background:transparent;border:0.5px solid var(--border-strong);color:var(--text-dim);padding:6px 14px;border-radius:6px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;transition:all 0.2s;}
-  .bert-btn:hover,.bert-btn.active{border-color:var(--accent);color:var(--accent);background:var(--accent-bg);}
-
-  /* Track */
-  .track-box{background:linear-gradient(135deg,var(--card) 0%,rgba(0,255,157,0.03) 100%);border:0.5px solid var(--accent);border-radius:14px;padding:2.5rem;position:relative;overflow:hidden;}
-  .track-box::before{content:"DS";position:absolute;top:-30px;right:-20px;font-family:'Fraunces',serif;font-size:14rem;color:var(--accent);opacity:0.04;font-style:italic;line-height:1;}
-  .track-box h3{font-family:'Fraunces',serif;font-size:1.75rem;font-weight:300;margin-bottom:1rem;letter-spacing:-0.5px;position:relative;}
-  .track-box h3 em{color:var(--accent);font-style:italic;}
-  .track-box p{font-size:15px;color:var(--text-dim);line-height:1.8;font-weight:300;position:relative;max-width:680px;}
-
-  /* Video */
-  .video-placeholder{background:var(--card);border:0.5px dashed var(--border-strong);border-radius:14px;padding:4rem 2rem;text-align:center;transition:all 0.3s;cursor:pointer;}
-  .video-placeholder:hover{border-color:var(--accent);background:var(--card-hover);}
-  .video-placeholder-icon{width:64px;height:64px;margin:0 auto 1rem;border-radius:50%;border:0.5px solid var(--accent);display:flex;align-items:center;justify-content:center;color:var(--accent);font-size:20px;transition:all 0.3s;}
-  .video-placeholder:hover .video-placeholder-icon{background:var(--accent);color:var(--bg);transform:scale(1.1);}
-  .video-placeholder h3{font-family:'Fraunces',serif;font-size:1.35rem;font-weight:300;margin-bottom:0.5rem;}
-  .video-placeholder p{font-size:13px;color:var(--text-dim);max-width:420px;margin:0 auto;font-weight:300;}
-
-  /* Blog */
-  .blog-stub{display:flex;align-items:center;justify-content:space-between;padding:1.4rem 0;border-top:0.5px solid var(--border);cursor:pointer;transition:all 0.3s;gap:1rem;position:relative;}
-  .blog-stub::before{content:"→";position:absolute;left:-24px;opacity:0;color:var(--accent);transition:all 0.3s;}
-  .blog-stub:last-child{border-bottom:0.5px solid var(--border);}
-  .blog-stub:hover{padding-left:24px;}
-  .blog-stub:hover::before{opacity:1;left:0;}
-  .blog-stub-title{font-family:'Fraunces',serif;font-size:1.2rem;font-weight:300;letter-spacing:-0.2px;}
-  .blog-stub-meta{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);white-space:nowrap;letter-spacing:0.05em;}
-
-  /* Contact */
-  .contact-box{background:linear-gradient(135deg,var(--card) 0%,rgba(0,255,157,0.04) 100%);border:0.5px solid var(--border-strong);border-radius:14px;padding:3rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1.5rem;}
-  .contact-box h2{font-family:'Fraunces',serif;font-size:2.25rem;font-weight:300;letter-spacing:-0.75px;}
-  .contact-box h2 em{color:var(--accent);font-style:italic;}
-  .contact-box p{font-size:14px;color:var(--text-dim);margin-top:6px;font-weight:300;}
-  .contact-links{display:flex;gap:10px;flex-wrap:wrap;}
-
-  footer{text-align:center;padding:2.5rem;font-size:11px;color:var(--muted);font-family:'JetBrains Mono',monospace;letter-spacing:0.1em;border-top:0.5px solid var(--border);}
-
-  /* Command palette */
-  .cmd-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);backdrop-filter:blur(8px);z-index:100;display:flex;align-items:flex-start;justify-content:center;padding-top:12vh;opacity:0;visibility:hidden;transition:opacity 0.2s,visibility 0.2s;}
-  .cmd-overlay.open{opacity:1;visibility:visible;}
-  .cmd-panel{background:var(--bg-soft);border:0.5px solid var(--border-strong);border-radius:12px;width:90%;max-width:560px;overflow:hidden;box-shadow:0 20px 80px rgba(0,0,0,0.5);transform:translateY(-20px);transition:transform 0.2s;}
-  .cmd-overlay.open .cmd-panel{transform:translateY(0);}
-  .cmd-input-wrap{position:relative;border-bottom:0.5px solid var(--border);}
-  .cmd-input{width:100%;background:transparent;border:none;padding:1.25rem 1.5rem 1.25rem 3rem;font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--text);outline:none;}
-  .cmd-input-wrap::before{content:"⌕";position:absolute;left:1.25rem;top:50%;transform:translateY(-50%);color:var(--accent);font-size:18px;}
-  .cmd-list{max-height:360px;overflow-y:auto;padding:0.5rem;}
-  .cmd-item{padding:0.75rem 1rem;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:1rem;transition:background 0.15s;}
-  .cmd-item:hover,.cmd-item.selected{background:var(--card-hover);}
-  .cmd-item-left{display:flex;align-items:center;gap:12px;}
-  .cmd-item-icon{font-family:'Fraunces',serif;font-style:italic;color:var(--accent);width:24px;text-align:center;font-size:14px;}
-  .cmd-item-text{font-size:13px;}
-  .cmd-item-hint{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase;}
-  .cmd-footer{padding:0.75rem 1.25rem;border-top:0.5px solid var(--border);font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);display:flex;gap:1rem;letter-spacing:0.05em;}
-  .cmd-footer kbd{background:var(--border);padding:1px 5px;border-radius:3px;}
-
-</style>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { background: #07070e; }
+    #root { min-height: 100vh; }
+  </style>
 </head>
 <body>
+  <div id="root"></div>
 
-<div class="cursor-glow" id="cursorGlow"></div>
+  <script type="text/babel" data-type="module" data-presets="react">
+const { useState, useEffect, useRef } = React;
 
-<nav>
-  <span class="logo"><span class="logo-dot"></span>Aditya Marathe</span>
-  <div class="nav-right">
-    <div class="nav-links">
-      <a href="#overview">01/Overview</a>
-      <a href="#projects">02/Projects</a>
-      <a href="#track">03/Track</a>
-      <a href="#blog">04/Blog</a>
-      <a href="#contact">05/Contact</a>
-    </div>
-    <button class="cmd-btn" onclick="openPalette()">⌘K <kbd>cmd</kbd></button>
-  </div>
-</nav>
+/* =================================================================
+   ADITYA MARATHE — PORTFOLIO
+   Single-file deploy build. Just commit this as index.html.
+   To add real project screenshots: see the ProjectPreview comment below.
+   ================================================================= */
 
-<!-- HERO -->
-<div class="hero-wrap">
-  <canvas id="particles"></canvas>
-  <div class="hero">
-    <div class="hero-meta">IST 782 · Spring 2026 · Syracuse University iSchool</div>
-    <h1>
-      <span class="line">From messy data</span>
-      <span class="line">to <em>actionable</em></span>
-      <span class="line"><em>insight</em>.</span>
-    </h1>
-    <div class="typed-wrap"><span id="typed"></span><span class="cursor"></span></div>
-    <p class="hero-sub">A reflective portfolio documenting my journey through the M.S. in Applied Data Science at Syracuse — mapping coursework, projects, and outcomes to the program's six learning goals.</p>
-    <div class="hero-ctas">
-      <a href="#overview" class="btn-primary">Explore portfolio →</a>
-      <a href="https://www.linkedin.com/in/aditya-marathe99/" target="_blank" class="btn-ghost">LinkedIn ↗</a>
-    </div>
-  </div>
-  <div class="scroll-hint">scroll to enter</div>
-</div>
-
-<!-- INFO STRIP -->
-<div class="info-strip">
-  <div class="info-cell">
-    <div class="info-label">Program</div>
-    <div class="info-value">M.S. Applied Data Science<small>Syracuse iSchool</small></div>
-  </div>
-  <div class="info-cell">
-    <div class="info-label">Track</div>
-    <div class="info-value">Data Science<small>Technical specialization</small></div>
-  </div>
-  <div class="info-cell">
-    <div class="info-label">Graduation</div>
-    <div class="info-value">May 2026<small>Portfolio: IST 782</small></div>
-  </div>
-  <div class="info-cell">
-    <div class="info-label">Focus</div>
-    <div class="info-value">ML · NLP · Analytics<small>Process improvement</small></div>
-  </div>
-</div>
-
-<!-- OVERVIEW -->
-<section id="overview">
-  <div class="reveal">
-    <div class="section-label">01 / Overview</div>
-    <h2 class="section-title">Six outcomes, <em>three projects</em>.</h2>
-    <p class="section-intro">The M.S. in Applied Data Science is a practitioner's degree. These six learning outcomes define what every graduate should demonstrate — and the map below shows how my three featured projects cover all six. Hover a node to trace the connections.</p>
-  </div>
-
-  <!-- PLO MAP -->
-  <div class="reveal plo-map" id="ploMap">
-    <svg class="plo-map-svg" viewBox="0 0 900 440" xmlns="http://www.w3.org/2000/svg" id="ploSvg">
-      <!-- Links (drawn first so nodes cover them) -->
-      <g id="links"></g>
-
-      <!-- PLO nodes (left column) -->
-      <g class="node-plo" data-id="plo1" data-projects="loretto,f1,bert" transform="translate(140,60)">
-        <circle r="28"/>
-        <text text-anchor="middle" y="4" font-style="italic">1</text>
-        <text class="label" text-anchor="middle" y="52">Data access</text>
-      </g>
-      <g class="node-plo" data-id="plo2" data-projects="loretto,bert" transform="translate(140,140)">
-        <circle r="28"/>
-        <text text-anchor="middle" y="4" font-style="italic">2</text>
-        <text class="label" text-anchor="middle" y="52">Actionable insight</text>
-      </g>
-      <g class="node-plo" data-id="plo3" data-projects="f1,bert" transform="translate(140,220)">
-        <circle r="28"/>
-        <text text-anchor="middle" y="4" font-style="italic">3</text>
-        <text class="label" text-anchor="middle" y="52">Viz + modeling</text>
-      </g>
-      <g class="node-plo" data-id="plo4" data-projects="loretto,f1,bert" transform="translate(140,300)">
-        <circle r="28"/>
-        <text text-anchor="middle" y="4" font-style="italic">4</text>
-        <text class="label" text-anchor="middle" y="52">Programming</text>
-      </g>
-      <g class="node-plo" data-id="plo5" data-projects="loretto,f1" transform="translate(140,380)">
-        <circle r="28"/>
-        <text text-anchor="middle" y="4" font-style="italic">5</text>
-        <text class="label" text-anchor="middle" y="52">Communication</text>
-      </g>
-      <g class="node-plo" data-id="plo6" data-projects="loretto,bert" transform="translate(240,440)">
-        <!-- moved below due to space - we'll reposition in JS -->
-      </g>
-
-      <!-- Project nodes (right column) -->
-      <g class="node-project" data-id="loretto" data-plos="plo1,plo2,plo4,plo5,plo6" transform="translate(640,100)">
-        <rect x="-90" y="-22" width="180" height="44" rx="8"/>
-        <text text-anchor="middle" y="4">Loretto · Healthcare</text>
-      </g>
-      <g class="node-project" data-id="f1" data-plos="plo1,plo3,plo4,plo5" transform="translate(640,220)">
-        <rect x="-90" y="-22" width="180" height="44" rx="8"/>
-        <text text-anchor="middle" y="4">F1 · IST 719</text>
-      </g>
-      <g class="node-project" data-id="bert" data-plos="plo1,plo2,plo3,plo4,plo6" transform="translate(640,340)">
-        <rect x="-90" y="-22" width="180" height="44" rx="8"/>
-        <text text-anchor="middle" y="4">BERT · IST 707</text>
-      </g>
-    </svg>
-    <div class="plo-map-hint">Hover any node to trace connections · Click a project for details</div>
-  </div>
-
-  <div class="reveal plo-grid">
-    <div class="plo-card">
-      <div class="plo-num">1</div>
-      <h4>Data collection & access</h4>
-      <p>Collect, store, and access data by identifying and leveraging applicable technologies.</p>
-      <div class="plo-projects"><span class="plo-tag">Loretto</span><span class="plo-tag">F1</span><span class="plo-tag">BERT</span></div>
-    </div>
-    <div class="plo-card">
-      <div class="plo-num">2</div>
-      <h4>Actionable insight</h4>
-      <p>Create actionable insight across contexts — societal, business, political — using the full data science life cycle.</p>
-      <div class="plo-projects"><span class="plo-tag">Loretto</span><span class="plo-tag">BERT</span></div>
-    </div>
-    <div class="plo-card">
-      <div class="plo-num">3</div>
-      <h4>Visualization & predictive modeling</h4>
-      <p>Apply visualization and predictive models to help generate actionable insight.</p>
-      <div class="plo-projects"><span class="plo-tag">F1</span><span class="plo-tag">BERT</span></div>
-    </div>
-    <div class="plo-card">
-      <div class="plo-num">4</div>
-      <h4>Programming for data science</h4>
-      <p>Use programming languages such as R and Python to support the generation of actionable insight.</p>
-      <div class="plo-projects"><span class="plo-tag">Loretto</span><span class="plo-tag">F1</span><span class="plo-tag">BERT</span></div>
-    </div>
-    <div class="plo-card">
-      <div class="plo-num">5</div>
-      <h4>Communicating insights</h4>
-      <p>Communicate insights via visualization and analytics to broad audiences — sponsors, technical leads, domain experts.</p>
-      <div class="plo-projects"><span class="plo-tag">Loretto</span><span class="plo-tag">F1</span></div>
-    </div>
-    <div class="plo-card">
-      <div class="plo-num">6</div>
-      <h4>Ethics in data science</h4>
-      <p>Apply ethics in the development, use, and evaluation of data and predictive models — fairness, bias, transparency, privacy.</p>
-      <div class="plo-projects"><span class="plo-tag">Loretto</span><span class="plo-tag">BERT</span></div>
-    </div>
-  </div>
-</section>
-
-<!-- PROJECTS -->
-<section id="projects">
-  <div class="reveal">
-    <div class="section-label">02 / Projects</div>
-    <h2 class="section-title">Featured <em>work</em>.</h2>
-    <p class="section-intro">Three projects spanning healthcare, motorsport, and financial NLP — collectively demonstrating all six program learning outcomes. Two of them include live interactive demos below.</p>
-  </div>
-
-  <!-- PROJECT 1: Loretto -->
-  <div class="reveal project" id="project-loretto">
-    <div class="project-header">
-      <h3>Patient Feedback Automation System</h3>
-      <div class="project-course">Capstone · Internship</div>
-    </div>
-    <div class="project-context">Loretto Hospital & Rehabilitation Center · Operations Data Analyst</div>
-    <div class="project-row">
-      <div class="project-row-label">Goals</div>
-      <div class="project-row-content muted">Design and pilot an automated patient feedback pipeline using DMAIC / Lean Six Sigma methodology — replacing a manual, paper-based review process with a scalable system that surfaces actionable insights for hospital leadership.</div>
-    </div>
-    <div class="project-row">
-      <div class="project-row-label">Stack</div>
-      <div class="project-row-content"><div class="tech-stack"><span class="tech-tag">Python</span><span class="tech-tag">NLP</span><span class="tech-tag">Lean Six Sigma</span><span class="tech-tag">SIPOC</span><span class="tech-tag">VSM</span><span class="tech-tag">Power BI</span></div></div>
-    </div>
-    <div class="project-row">
-      <div class="project-row-label">Contribution</div>
-      <div class="project-row-content muted">Led the DMAIC engagement end-to-end: defined the problem with stakeholders, built SIPOC and current/future-state value stream maps, automated the feedback classification pipeline, and delivered a final pilot report with projected ROI.</div>
-    </div>
-    <div class="project-row">
-      <div class="project-row-label">Insight</div>
-      <div class="project-row-content muted">Reduced manual review overhead substantially and gave leadership a near-real-time view of recurring service gaps. The pilot's projected ROI justified a phased rollout.</div>
-    </div>
-    <div class="project-row">
-      <div class="project-row-label">PLOs met</div>
-      <div class="project-row-content"><div class="plo-badges"><span class="plo-badge">PLO 1</span><span class="plo-badge">PLO 2</span><span class="plo-badge">PLO 4</span><span class="plo-badge">PLO 5</span><span class="plo-badge">PLO 6</span></div></div>
-    </div>
-  </div>
-
-  <!-- PROJECT 2: F1 -->
-  <div class="reveal project" id="project-f1">
-    <div class="project-header">
-      <h3>Formula 1 Race Analytics</h3>
-      <div class="project-course">IST 719 · Info Visualization</div>
-    </div>
-    <div class="project-context">Exploratory analysis & interactive dashboards for race strategy insights</div>
-    <div class="project-row">
-      <div class="project-row-label">Goals</div>
-      <div class="project-row-content muted">Explore two decades of F1 race data to surface patterns in lap times, pit strategy, and driver performance — and communicate findings through visualizations accessible to non-experts.</div>
-    </div>
-    <div class="project-row">
-      <div class="project-row-label">Stack</div>
-      <div class="project-row-content"><div class="tech-stack"><span class="tech-tag">Python</span><span class="tech-tag">Pandas</span><span class="tech-tag">Tableau</span><span class="tech-tag">Matplotlib</span><span class="tech-tag">SQL</span></div></div>
-    </div>
-    <div class="project-row">
-      <div class="project-row-label">Insight</div>
-      <div class="project-row-content muted">Quantified how pit-stop timing affects finishing position and how track characteristics interact with tire strategy — packaged for a non-technical audience as an interactive dashboard story.</div>
-    </div>
-
-    <!-- F1 INTERACTIVE DEMO -->
-    <div class="demo-box">
-      <div class="demo-header">
-        <div class="demo-title">Live demo · Pit strategy simulator</div>
-      </div>
-      <div class="f1-controls">
-        <div class="slider-row">
-          <label>Pit stops</label>
-          <input type="range" id="f1Stops" min="1" max="4" value="2" step="1">
-          <div class="slider-value" id="f1StopsVal">2</div>
-        </div>
-        <div class="slider-row">
-          <label>Avg stop (s)</label>
-          <input type="range" id="f1Time" min="2.0" max="4.0" value="2.5" step="0.1">
-          <div class="slider-value" id="f1TimeVal">2.5s</div>
-        </div>
-        <div class="slider-row">
-          <label>Tire wear</label>
-          <input type="range" id="f1Wear" min="0" max="100" value="40" step="5">
-          <div class="slider-value" id="f1WearVal">40%</div>
-        </div>
-      </div>
-      <div class="f1-result">
-        <div class="f1-stat">
-          <div class="f1-stat-label">Est. total pit loss</div>
-          <div class="f1-stat-value" id="f1PitLoss">5.0<small>s</small></div>
-        </div>
-        <div class="f1-stat">
-          <div class="f1-stat-label">Est. tire gain</div>
-          <div class="f1-stat-value" id="f1TireGain">16.0<small>s</small></div>
-        </div>
-        <div class="f1-stat">
-          <div class="f1-stat-label">Net position Δ</div>
-          <div class="f1-stat-value" id="f1Net">+11.0<small>s</small></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="project-row">
-      <div class="project-row-label">PLOs met</div>
-      <div class="project-row-content"><div class="plo-badges"><span class="plo-badge">PLO 1</span><span class="plo-badge">PLO 3</span><span class="plo-badge">PLO 4</span><span class="plo-badge">PLO 5</span></div></div>
-    </div>
-  </div>
-
-  <!-- PROJECT 3: BERT -->
-  <div class="reveal project" id="project-bert">
-    <div class="project-header">
-      <h3>Stock Volatility Prediction with BERT</h3>
-      <div class="project-course">IST 707 · Applied ML</div>
-    </div>
-    <div class="project-context">Transformer-based NLP on earnings call transcripts</div>
-    <div class="project-row">
-      <div class="project-row-label">Goals</div>
-      <div class="project-row-content muted">Predict short-term stock volatility from earnings call language — testing whether transformer embeddings capture signal beyond traditional sentiment features.</div>
-    </div>
-    <div class="project-row">
-      <div class="project-row-label">Stack</div>
-      <div class="project-row-content"><div class="tech-stack"><span class="tech-tag">Python</span><span class="tech-tag">PyTorch</span><span class="tech-tag">BERT</span><span class="tech-tag">HuggingFace</span><span class="tech-tag">Sklearn</span></div></div>
-    </div>
-    <div class="project-row">
-      <div class="project-row-label">Insight</div>
-      <div class="project-row-content muted">BERT embeddings meaningfully outperformed bag-of-words and VADER-sentiment baselines on post-earnings volatility windows — context-aware language models add real signal to financial NLP.</div>
-    </div>
-
-    <!-- BERT INTERACTIVE DEMO -->
-    <div class="demo-box">
-      <div class="demo-header">
-        <div class="demo-title">Live demo · Model comparison</div>
-      </div>
-      <div class="bert-chart-wrap">
-        <canvas id="bertChart"></canvas>
-      </div>
-      <div class="bert-controls">
-        <button class="bert-btn active" data-metric="rmse">RMSE</button>
-        <button class="bert-btn" data-metric="r2">R²</button>
-        <button class="bert-btn" data-metric="mae">MAE</button>
-      </div>
-      <div class="bert-legend">
-        <div class="bert-legend-item"><span class="bert-legend-dot" style="background:#6a6a64;"></span>Bag-of-Words</div>
-        <div class="bert-legend-item"><span class="bert-legend-dot" style="background:#9a9a94;"></span>VADER sentiment</div>
-        <div class="bert-legend-item"><span class="bert-legend-dot" style="background:#00ff9d;"></span>BERT (ours)</div>
-      </div>
-    </div>
-
-    <div class="project-row">
-      <div class="project-row-label">PLOs met</div>
-      <div class="project-row-content"><div class="plo-badges"><span class="plo-badge">PLO 1</span><span class="plo-badge">PLO 2</span><span class="plo-badge">PLO 3</span><span class="plo-badge">PLO 4</span><span class="plo-badge">PLO 6</span></div></div>
-    </div>
-  </div>
-</section>
-
-<!-- TRACK -->
-<section id="track">
-  <div class="reveal">
-    <div class="section-label">03 / Track</div>
-    <h2 class="section-title"><em>Data Science</em> track.</h2>
-    <p class="section-intro">Why I chose it, and what it gave me.</p>
-  </div>
-  <div class="reveal track-box">
-    <h3>I wanted to <em>build</em> models, not just read them.</h3>
-    <p>The Data Science track pushed me into the actual mechanics — ML, NLP, programming, statistics — instead of staying on the dashboard side. That's where the work I want to do lives, and pairing it with my Lean Six Sigma background means I can both build the system and explain why it matters to the business.</p>
-  </div>
-</section>
-
-<!-- VIDEO -->
-<section id="video">
-  <div class="reveal">
-    <div class="section-label">04 / Video presentation</div>
-    <h2 class="section-title">Program <em>reflections</em>.</h2>
-    <p class="section-intro">A short 1–2 minute reflection on the program, what I learned, and what surprised me.</p>
-  </div>
-  <div class="reveal video-placeholder">
-    <div class="video-placeholder-icon">▶</div>
-    <h3>Video coming soon</h3>
-    <p>Embed target: 60–120 seconds. Will cover track selection, highlight projects, and takeaways for a non-expert audience.</p>
-  </div>
-</section>
-
-<!-- BLOG -->
-<section id="blog">
-  <div class="reveal">
-    <div class="section-label">05 / Blog</div>
-    <h2 class="section-title">Reflective <em>writing</em>.</h2>
-    <p class="section-intro">A ~3,000 word reflection covering expectations vs. reality, the learning outcomes, favorite classes, and biggest surprises.</p>
-  </div>
-  <div class="reveal">
-    <div class="blog-stub"><div class="blog-stub-title">What I expected vs. what I learned</div><div class="blog-stub-meta">Draft · 600 words</div></div>
-    <div class="blog-stub"><div class="blog-stub-title">Six outcomes, three projects — how the math worked out</div><div class="blog-stub-meta">Draft · 900 words</div></div>
-    <div class="blog-stub"><div class="blog-stub-title">Favorite class, and why it wasn't the one I expected</div><div class="blog-stub-meta">Draft · 500 words</div></div>
-    <div class="blog-stub"><div class="blog-stub-title">The internship that changed my trajectory</div><div class="blog-stub-meta">Draft · 700 words</div></div>
-    <div class="blog-stub"><div class="blog-stub-title">Biggest surprises from the program</div><div class="blog-stub-meta">Draft · 300 words</div></div>
-  </div>
-</section>
-
-<!-- CONTACT -->
-<section id="contact" style="border-bottom:none;">
-  <div class="reveal contact-box">
-    <div>
-      <h2>Let's <em>connect</em>.</h2>
-      <p>Targeting Data Analyst & Data Science roles · Syracuse, NY</p>
-    </div>
-    <div class="contact-links">
-      <a href="https://www.linkedin.com/in/aditya-marathe99/" target="_blank" class="btn-primary">LinkedIn →</a>
-      <a href="mailto:amarathe@syr.edu" class="btn-ghost">Email</a>
-    </div>
-  </div>
-</section>
-
-<footer>© 2026 Aditya Marathe · IST 782 Portfolio · Syracuse University iSchool</footer>
-
-<!-- COMMAND PALETTE -->
-<div class="cmd-overlay" id="cmdOverlay">
-  <div class="cmd-panel" onclick="event.stopPropagation()">
-    <div class="cmd-input-wrap">
-      <input type="text" class="cmd-input" id="cmdInput" placeholder="Jump to a section, project, or link…" autocomplete="off">
-    </div>
-    <div class="cmd-list" id="cmdList"></div>
-    <div class="cmd-footer">
-      <span><kbd>↑↓</kbd> navigate</span>
-      <span><kbd>↵</kbd> select</span>
-      <span><kbd>esc</kbd> close</span>
-    </div>
-  </div>
-</div>
-
-<script>
-// ============ CURSOR GLOW ============
-const glow = document.getElementById('cursorGlow');
-document.addEventListener('mousemove', (e) => {
-  glow.style.left = e.clientX + 'px';
-  glow.style.top = e.clientY + 'px';
-});
-
-// ============ PARTICLE NETWORK (HERO) ============
-const canvas = document.getElementById('particles');
-const ctx = canvas.getContext('2d');
-let particles = [];
-const PARTICLE_COUNT = 60;
-
-function resizeCanvas() {
-  const parent = canvas.parentElement;
-  canvas.width = parent.offsetWidth;
-  canvas.height = parent.offsetHeight;
-}
-resizeCanvas();
-window.addEventListener('resize', resizeCanvas);
-
-function initParticles() {
-  particles = [];
-  for (let i = 0; i < PARTICLE_COUNT; i++) {
-    particles.push({
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height,
-      vx: (Math.random() - 0.5) * 0.3,
-      vy: (Math.random() - 0.5) * 0.3,
-      r: Math.random() * 1.5 + 0.5
-    });
-  }
-}
-initParticles();
-
-let mouseX = -1000, mouseY = -1000;
-canvas.addEventListener('mousemove', e => {
-  const rect = canvas.getBoundingClientRect();
-  mouseX = e.clientX - rect.left;
-  mouseY = e.clientY - rect.top;
-});
-
-function animateParticles() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  particles.forEach((p, i) => {
-    p.x += p.vx;
-    p.y += p.vy;
-    if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
-    if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
-
-    // Mouse interaction
-    const dx = mouseX - p.x, dy = mouseY - p.y;
-    const dist = Math.sqrt(dx*dx + dy*dy);
-    if (dist < 120) {
-      p.x -= dx / dist * 0.5;
-      p.y -= dy / dist * 0.5;
-    }
-
-    ctx.beginPath();
-    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-    ctx.fillStyle = 'rgba(0, 255, 157, 0.5)';
-    ctx.fill();
-
-    // Draw lines to nearby particles
-    for (let j = i + 1; j < particles.length; j++) {
-      const p2 = particles[j];
-      const d = Math.sqrt((p.x - p2.x)**2 + (p.y - p2.y)**2);
-      if (d < 140) {
-        ctx.beginPath();
-        ctx.moveTo(p.x, p.y);
-        ctx.lineTo(p2.x, p2.y);
-        ctx.strokeStyle = `rgba(0, 255, 157, ${0.15 * (1 - d/140)})`;
-        ctx.lineWidth = 0.5;
-        ctx.stroke();
-      }
-    }
-  });
-  requestAnimationFrame(animateParticles);
-}
-animateParticles();
-
-// ============ TYPING EFFECT ============
-const typedEl = document.getElementById('typed');
-const phrases = [
-  'data_scientist.py --track="data science"',
-  'ml + nlp + process improvement',
-  'msads @ syracuse.ischool',
-  'open to opportunities · may 2026'
-];
-let phraseIdx = 0, charIdx = 0, isDeleting = false;
-
-function typeLoop() {
-  const current = phrases[phraseIdx];
-  if (!isDeleting) {
-    typedEl.textContent = current.slice(0, charIdx + 1);
-    charIdx++;
-    if (charIdx === current.length) {
-      isDeleting = true;
-      setTimeout(typeLoop, 2500);
-      return;
-    }
-    setTimeout(typeLoop, 45 + Math.random() * 40);
-  } else {
-    typedEl.textContent = current.slice(0, charIdx - 1);
-    charIdx--;
-    if (charIdx === 0) {
-      isDeleting = false;
-      phraseIdx = (phraseIdx + 1) % phrases.length;
-    }
-    setTimeout(typeLoop, 25);
-  }
-}
-setTimeout(typeLoop, 1200);
-
-// ============ SCROLL REVEAL ============
-const reveals = document.querySelectorAll('.reveal');
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('visible');
-      observer.unobserve(entry.target);
-    }
-  });
-}, { threshold: 0.1, rootMargin: '0px 0px -80px 0px' });
-reveals.forEach(el => observer.observe(el));
-
-// ============ PLO CONNECTOR MAP ============
-// Reposition PLO 6 properly
-const ploPositions = {
-  plo1: [140, 50], plo2: [140, 115], plo3: [140, 180],
-  plo4: [140, 245], plo5: [140, 310], plo6: [140, 375]
-};
-const projPositions = {
-  loretto: [640, 90], f1: [640, 210], bert: [640, 330]
-};
-// Re-set positions
-document.querySelectorAll('.node-plo').forEach(n => {
-  const id = n.dataset.id;
-  if (ploPositions[id]) n.setAttribute('transform', `translate(${ploPositions[id][0]},${ploPositions[id][1]})`);
-});
-document.querySelectorAll('.node-project').forEach(n => {
-  const id = n.dataset.id;
-  if (projPositions[id]) n.setAttribute('transform', `translate(${projPositions[id][0]},${projPositions[id][1]})`);
-});
-
-// Adjust SVG viewbox
-document.getElementById('ploSvg').setAttribute('viewBox', '0 0 800 430');
-
-// Build connections
-const connections = [
-  ['plo1', 'loretto'], ['plo1', 'f1'], ['plo1', 'bert'],
-  ['plo2', 'loretto'], ['plo2', 'bert'],
-  ['plo3', 'f1'], ['plo3', 'bert'],
-  ['plo4', 'loretto'], ['plo4', 'f1'], ['plo4', 'bert'],
-  ['plo5', 'loretto'], ['plo5', 'f1'],
-  ['plo6', 'loretto'], ['plo6', 'bert'],
-];
-const linksGroup = document.getElementById('links');
-connections.forEach(([ploId, projId]) => {
-  const [x1, y1] = ploPositions[ploId];
-  const [x2, y2] = projPositions[projId];
-  const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-  const midX = (x1 + x2) / 2;
-  path.setAttribute('d', `M ${x1+28} ${y1} C ${midX} ${y1}, ${midX} ${y2}, ${x2-90} ${y2}`);
-  path.setAttribute('class', 'link');
-  path.dataset.plo = ploId;
-  path.dataset.project = projId;
-  linksGroup.appendChild(path);
-});
-
-// Interactivity
-function highlightMap(ploId, projId) {
-  document.querySelectorAll('.link').forEach(l => {
-    const match = (ploId && l.dataset.plo === ploId) || (projId && l.dataset.project === projId);
-    l.classList.toggle('active', match);
-  });
-  document.querySelectorAll('.node-plo').forEach(n => {
-    const isSelf = ploId && n.dataset.id === ploId;
-    const connectedToProject = projId && n.dataset.projects.split(',').includes(projId);
-    n.classList.toggle('active', isSelf || connectedToProject);
-  });
-  document.querySelectorAll('.node-project').forEach(n => {
-    const isSelf = projId && n.dataset.id === projId;
-    const connectedToPlo = ploId && n.dataset.plos.split(',').includes(ploId);
-    n.classList.toggle('active', isSelf || connectedToPlo);
-  });
-}
-
-document.querySelectorAll('.node-plo').forEach(n => {
-  n.addEventListener('mouseenter', () => highlightMap(n.dataset.id, null));
-  n.addEventListener('mouseleave', () => highlightMap(null, null));
-});
-document.querySelectorAll('.node-project').forEach(n => {
-  n.addEventListener('mouseenter', () => highlightMap(null, n.dataset.id));
-  n.addEventListener('mouseleave', () => highlightMap(null, null));
-  n.addEventListener('click', () => {
-    const el = document.getElementById(`project-${n.dataset.id}`);
-    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  });
-});
-
-// ============ F1 SIMULATOR ============
-const f1Stops = document.getElementById('f1Stops');
-const f1Time = document.getElementById('f1Time');
-const f1Wear = document.getElementById('f1Wear');
-
-function updateF1() {
-  const stops = parseInt(f1Stops.value);
-  const time = parseFloat(f1Time.value);
-  const wear = parseInt(f1Wear.value);
-
-  const pitLoss = stops * time;
-  // Heuristic: more stops + high wear = bigger tire gain; diminishing returns
-  const tireGain = (wear / 100) * (stops * 12) * (1 - 0.12 * (stops - 1));
-  const net = tireGain - pitLoss;
-
-  document.getElementById('f1StopsVal').textContent = stops;
-  document.getElementById('f1TimeVal').textContent = time.toFixed(1) + 's';
-  document.getElementById('f1WearVal').textContent = wear + '%';
-  document.getElementById('f1PitLoss').innerHTML = pitLoss.toFixed(1) + '<small>s</small>';
-  document.getElementById('f1TireGain').innerHTML = tireGain.toFixed(1) + '<small>s</small>';
-  const sign = net >= 0 ? '+' : '';
-  document.getElementById('f1Net').innerHTML = sign + net.toFixed(1) + '<small>s</small>';
-  document.getElementById('f1Net').style.color = net >= 0 ? 'var(--accent)' : '#ff6b6b';
-}
-
-[f1Stops, f1Time, f1Wear].forEach(el => el.addEventListener('input', updateF1));
-updateF1();
-
-// ============ BERT CHART ============
-const bertData = {
-  rmse: { bow: 0.089, vader: 0.082, bert: 0.064, label: 'RMSE (lower = better)' },
-  r2:   { bow: 0.31,  vader: 0.38,  bert: 0.52,  label: 'R² (higher = better)' },
-  mae:  { bow: 0.071, vader: 0.066, bert: 0.048, label: 'MAE (lower = better)' }
-};
-
-const bertCtx = document.getElementById('bertChart').getContext('2d');
-let bertChart = null;
-
-function renderBertChart(metric) {
-  const d = bertData[metric];
-  if (bertChart) bertChart.destroy();
-  bertChart = new Chart(bertCtx, {
-    type: 'bar',
-    data: {
-      labels: ['Bag-of-Words', 'VADER', 'BERT (ours)'],
-      datasets: [{
-        data: [d.bow, d.vader, d.bert],
-        backgroundColor: ['#6a6a64', '#9a9a94', '#00ff9d'],
-        borderRadius: 6,
-        barThickness: 48
-      }]
+/* ================= DATA ================= */
+const DATA = {
+  name: "Aditya Marathe",
+  title: "Data Scientist & Data Analyst",
+  tagline: "I turn messy data into decisions that move the business — predictive models, analytics pipelines, and BI dashboards that cut costs, reduce churn, and surface what actually drives outcomes.",
+  location: "Syracuse, New York",
+  email: "adityamarathe099@gmail.com",
+  phone: "+1-315-728-0838",
+  linkedin: "https://linkedin.com/in/aditya-marathe99",
+  github: "https://github.com/Aditya768",
+  about: "I'm Aditya, a Data Scientist and Data Analyst and recent MS Applied Data Science graduate from Syracuse University's iSchool. I build end-to-end analytics projects — automating data pipelines, engineering predictive models, and building BI dashboards that healthcare and SaaS teams actually use. My foundation is in Artificial Intelligence and Machine Learning, but my edge is translating clinical and business questions into analytical requirements, then shipping reproducible, stakeholder-ready outputs.",
+  facts: [
+    ["Location", "Syracuse, NY"],
+    ["Degree", "MS Applied Data Science"],
+    ["University", "Syracuse University, iSchool"],
+    ["Graduation", "May 2026"],
+    ["Focus", "Data Analytics & Data Science"],
+    ["Status", "Open to Opportunities · Relocation"],
+  ],
+  experience: [
+    {
+      date: "Aug 2025 – Dec 2025", role: "Operations Data Analyst Intern", org: "Loretto Health & Rehabilitation Center · Syracuse, NY",
+      bullets: [
+        "Led a DMAIC process-improvement initiative: automated the patient feedback pipeline, raising survey capture from 0% to 85% across 4 facilities and eliminating 456 annual manual data-entry hours; presented Value Stream Mapping and SIPOC analysis to clinical leadership as non-technical stakeholders.",
+        "Developed and maintained recurring KPI dashboards tracking patient satisfaction in real time, reducing feedback turnaround by 40%; translated clinical stakeholder questions into analytical requirements and confirmed data definitions, assumptions, and timelines before delivery.",
+      ],
     },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      animation: { duration: 700, easing: 'easeOutQuart' },
-      plugins: {
-        legend: { display: false },
-        title: { display: true, text: d.label, color: '#9a9a94', font: { family: 'JetBrains Mono', size: 11, weight: 400 }, padding: { bottom: 12 } },
-        tooltip: {
-          backgroundColor: '#111110', titleColor: '#00ff9d', bodyColor: '#f0efea',
-          borderColor: 'rgba(255,255,255,0.18)', borderWidth: 1, padding: 10,
-          titleFont: { family: 'JetBrains Mono', size: 11 }, bodyFont: { family: 'Inter', size: 12 }
-        }
+    {
+      date: "May 2025 – Jun 2025", role: "Teaching Assistant — Cybersecurity", org: "Syracuse University, iSchool · Syracuse, NY",
+      bullets: [
+        "Facilitated debugging and code reviews for 30+ students in network security and cryptography coursework; designed supplementary exercises on security protocols and threat modeling, improving assignment completion rates.",
+      ],
+    },
+  ],
+  education: [
+    { date: "Aug 2024 – May 2026", degree: "MS, Applied Data Science", org: "Syracuse University, iSchool",
+      courses: ["Introduction to Data Science", "Business Analytics", "Responsible AI", "Applied Machine Learning", "Data Warehouse", "Visual Analytic Dashboards"] },
+    { date: "Aug 2020 – May 2024", degree: "BTech, Artificial Intelligence & Machine Learning", org: "Thakur College of Engineering & Technology, Mumbai",
+      courses: ["Basics of Artificial Intelligence", "Statistics for Data Analysis", "Data Mining and Business Visualization", "Fundamentals of Machine Learning", "Reinforcement Learning", "Cognitive Computing"] },
+  ],
+  projects: [
+    {
+      n: "01", title: "Healthcare Operations Analytics Dashboard", sub: "CMS Hospital Intelligence · 2025", burst: "THWIP!", preview: "hospital",
+      stack: ["Python", "SQL", "Streamlit", "SHAP"],
+      desc: "Consolidated 5 CMS datasets (5,366 hospitals) into a unified reporting model using SQL window functions and CTEs, with full data cleaning, quality checks, and documentation for reproducible outputs. Applied SHAP explainability to quantify feature impact on patient satisfaction, then deployed a live Streamlit app on Hugging Face Spaces designed for non-technical stakeholders to monitor operations without SQL access.",
+      results: [{ val: 5366, suffix: "", label: "hospitals modeled" }, { val: 60, suffix: "%", label: "faster report prep" }, { val: 6, suffix: "×", label: "bed count vs ER wait" }],
+      arch: ["5 CMS datasets", "SQL model (CTEs)", "SHAP", "Rec. engine", "Streamlit · HF"],
+      caseStudy: {
+        problem: "Hospital operations teams were stitching together 5 separate CMS datasets by hand for weekly reports — slow, error-prone, and impossible for non-technical leaders to interrogate without an analyst in the room.",
+        approach: "I consolidated all 5,366 hospitals into one SQL reporting model (window functions, CTEs) with built-in data-quality checks, then ran SHAP analysis to quantify what actually moves patient satisfaction — and wrapped it in a Streamlit app so stakeholders could explore it without writing a line of SQL.",
+        result: "Report prep dropped 60%, the model surfaced that bed count matters 6× more than ER wait time, and an automated engine now generates 3 prioritized, stakeholder-ready actions per hospital — live on Hugging Face Spaces.",
       },
-      scales: {
-        x: { ticks: { color: '#9a9a94', font: { family: 'JetBrains Mono', size: 11 } }, grid: { display: false } },
-        y: { ticks: { color: '#6a6a64', font: { family: 'JetBrains Mono', size: 10 } }, grid: { color: 'rgba(255,255,255,0.04)' } }
-      }
-    }
-  });
-}
-renderBertChart('rmse');
+      links: [["Live App", "https://huggingface.co/spaces/Adityaxo09/hospital-satisfaction-predictor"], ["GitHub", "https://github.com/Aditya768"]],
+    },
+    {
+      n: "02", title: "RetainIQ — SaaS Customer Churn Analytics", sub: "Snowflake Warehouse + Churn ML · 2025", burst: "BAM!", preview: "churn", demo: true,
+      stack: ["Python", "Snowflake", "dbt", "SQL", "Power BI"],
+      desc: "Built and maintained an ETL pipeline processing 2M+ rows on Snowflake with automated data-quality tests (null checks, referential integrity) enabling monthly self-audits. Developed an XGBoost churn model with SQL cohort retention analysis and a Power BI executive dashboard with drill-through views. Designed a star schema with materialized dbt mart models and documented data lineage for reproducibility and team handoff.",
+      results: [{ val: 0.97, suffix: "", label: "F1 · held-out test set", decimals: 2 }, { val: 2, suffix: "M+", label: "rows processed" }, { val: 15, suffix: " hrs/mo", label: "validation saved" }],
+      arch: ["Source data", "Snowflake ETL", "dbt star schema", "XGBoost", "Power BI"],
+      caseStudy: {
+        problem: "A SaaS business was losing customers without a reliable way to see churn coming — source data was messy, validated by hand each month, and there was no model flagging which accounts were actually at risk.",
+        approach: "I built a Snowflake ETL pipeline for 2M+ rows with automated data-quality tests (null checks, referential integrity) so the data audits itself monthly, designed a dbt star schema for fast querying, then trained an XGBoost churn model alongside SQL cohort-retention analysis and a drill-through Power BI dashboard for leadership.",
+        result: "On a held-out test set the churn model reached F1 = 0.97 (97% precision, 98% recall), with performance confirmed through SQL cohort-retention analysis rather than a single accuracy figure. Manual validation dropped by 15 hours/month, and executives got 3 clear, drill-through-backed recommendations instead of a raw data dump.",
+      },
+      links: [["GitHub", "https://github.com/Aditya768"]],
+    },
+    {
+      n: "03", title: "Formula 1 Race Analytics Dashboard", sub: "FastF1 Feature Engineering · 2024", burst: "ZAP!", preview: "f1",
+      stack: ["Python", "SQL", "Tableau", "K-means"],
+      desc: "Engineered 25+ features from the FastF1 API across 5 seasons and built a Tableau dashboard surfacing lap-time trends and pit-stop strategy. Applied K-means clustering to segment 4 driver performance profiles, validating the resulting tiers against official F1 championship standings.",
+      results: [{ val: 25, suffix: "+", label: "features" }, { val: 5, suffix: "", label: "seasons" }, { val: 4, suffix: "", label: "driver clusters" }],
+      arch: ["FastF1 API", "Feature eng. (25+)", "K-means", "Validation", "Tableau"],
+      caseStudy: {
+        problem: "Raw Formula 1 timing data is dense and hard to read — lap times, pit stops, and driver performance are buried across seasons with no easy way to see strategy patterns or how drivers actually stack up.",
+        approach: "I pulled 5 seasons from the FastF1 API and engineered 25+ features, built a Tableau dashboard surfacing lap-time trends and pit-stop strategy, then applied K-means clustering to group drivers into performance tiers — validating those tiers against the official championship standings.",
+        result: "The clustering cleanly separated 4 driver performance profiles that matched real-world standings, and the end-to-end pipeline turned raw API data into a self-service dashboard anyone could use to explore race strategy.",
+      },
+      links: [["GitHub", "https://github.com/Aditya768"]],
+    },
+  ],
+  skills: [
+    { tier: "Core", note: "Can whiteboard it, ship it, debug it at 2am", groups: [
+      { power: "Web-Slinging", icon: "🕸", desc: "Connecting messy sources into pipelines that hold weight.", cat: "Languages & Query", items: ["Python", "SQL (Snowflake, DuckDB, MySQL)", "R (tidyverse, ggplot2)"] },
+      { power: "Spider-Vision", icon: "👁", desc: "Turning raw data into something stakeholders can actually see.", cat: "Visualization & BI", items: ["Power BI (DAX, drill-through)", "Tableau", "Matplotlib"] },
+      { power: "Precision Strikes", icon: "🎯", desc: "Cutting waste from broken processes with surgical accuracy.", cat: "Process Improvement", items: ["Lean Six Sigma (DMAIC)", "Value Stream Mapping", "SIPOC"] },
+    ]},
+    { tier: "Proficient", note: "Shipped projects with these, comfortable in production", groups: [
+      { power: "Spider-Sense", icon: "🧠", desc: "Predicting what's coming before the data shows it.", cat: "ML & AI", items: ["XGBoost", "scikit-learn", "SHAP", "Optuna"] },
+      { power: "Super-Strength", icon: "💪", desc: "Lifting millions of rows without breaking a sweat.", cat: "Data Engineering", items: ["Pandas", "NumPy", "dbt Core", "sklearn Pipeline", "Data Warehousing", "Google Apps Script"] },
+      { power: "Utility Belt", icon: "🧰", desc: "The everyday gadgets that get the job shipped.", cat: "Tools & Deployment", items: ["Git/GitHub", "Excel (Power Query)", "Streamlit", "Jupyter", "Agile"] },
+    ]},
+  ],
+};
 
-document.querySelectorAll('.bert-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.bert-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    renderBertChart(btn.dataset.metric);
-  });
-});
-
-// ============ COMMAND PALETTE ============
-const cmdItems = [
-  { text: 'Overview', hint: 'Section', type: 'scroll', target: '#overview', icon: '§' },
-  { text: 'Projects', hint: 'Section', type: 'scroll', target: '#projects', icon: '§' },
-  { text: 'Track', hint: 'Section', type: 'scroll', target: '#track', icon: '§' },
-  { text: 'Video', hint: 'Section', type: 'scroll', target: '#video', icon: '§' },
-  { text: 'Blog', hint: 'Section', type: 'scroll', target: '#blog', icon: '§' },
-  { text: 'Contact', hint: 'Section', type: 'scroll', target: '#contact', icon: '§' },
-  { text: 'Loretto — Patient Feedback Automation', hint: 'Project', type: 'scroll', target: '#project-loretto', icon: '▸' },
-  { text: 'F1 Race Analytics', hint: 'Project', type: 'scroll', target: '#project-f1', icon: '▸' },
-  { text: 'BERT Stock Volatility', hint: 'Project', type: 'scroll', target: '#project-bert', icon: '▸' },
-  { text: 'Open LinkedIn', hint: 'External', type: 'external', target: 'https://www.linkedin.com/in/aditya-marathe99/', icon: '↗' },
-  { text: 'Email me', hint: 'External', type: 'external', target: 'mailto:amarathe@syr.edu', icon: '↗' },
+const SECTION_TITLES = { about: "Origin Story", experience: "The Field Log", projects: "Things I've Built", skills: "Powers & Abilities", contact: "Sling a Message" };
+const IMPACT = [
+  { val: 456, suffix: "", label: "labor hours saved" },
+  { val: 5366, suffix: "", label: "hospitals modeled" },
+  { val: 2, suffix: "M+", label: "rows engineered" },
+  { val: 0.97, suffix: "", label: "best model F1", decimals: 2 },
 ];
-const overlay = document.getElementById('cmdOverlay');
-const cmdInput = document.getElementById('cmdInput');
-const cmdList = document.getElementById('cmdList');
-let selectedIdx = 0, filtered = cmdItems.slice();
 
-function renderCmdList() {
-  cmdList.innerHTML = '';
-  filtered.forEach((item, i) => {
-    const div = document.createElement('div');
-    div.className = 'cmd-item' + (i === selectedIdx ? ' selected' : '');
-    div.innerHTML = `
-      <div class="cmd-item-left">
-        <span class="cmd-item-icon">${item.icon}</span>
-        <span class="cmd-item-text">${item.text}</span>
+const THEMES = {
+  classic: { name: "CLASSIC", ink: "#07070e", panel: "#0e0e1a", accent: "#ff2e4d", accent2: "#2f7bff", glowA: "rgba(255,46,77,0.30)", glowB: "rgba(47,123,255,0.30)", web: "255,46,77", node: "255,255,255" },
+  symbiote: { name: "SYMBIOTE", ink: "#030305", panel: "#0a0a12", accent: "#ffffff", accent2: "#a855f7", glowA: "rgba(168,85,247,0.28)", glowB: "rgba(255,255,255,0.08)", web: "210,210,225", node: "210,210,230" },
+  spidergwen: { name: "GWEN", ink: "#0a0810", panel: "#140e1c", accent: "#ff2d95", accent2: "#1fd6e6", glowA: "rgba(255,45,149,0.30)", glowB: "rgba(31,214,230,0.28)", web: "255,45,149", node: "240,235,250" },
+};
+const THEME_ORDER = ["classic", "symbiote", "spidergwen"];
+
+/* ================= WEB CANVAS ================= */
+function WebBackground({ th }) {
+  const ref = useRef(null);
+  const mouse = useRef({ x: -999, y: -999 });
+  const scrollY = useRef(0);
+  const ripples = useRef([]);
+  const thRef = useRef(th);
+  useEffect(() => { thRef.current = th; }, [th]);
+  useEffect(() => {
+    const canvas = ref.current; if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    let raf, W, H, dpr = Math.min(window.devicePixelRatio || 1, 2), nodes = [], shots = [], spiders = [], t = 0;
+    const drawSpider = (x, y, s, col) => {
+      ctx.strokeStyle = col; ctx.lineWidth = 1; ctx.fillStyle = col;
+      ctx.beginPath(); ctx.ellipse(x, y, s * 1.4, s, 0, 0, Math.PI * 2); ctx.fill();
+      ctx.beginPath(); ctx.arc(x, y - s * 1.5, s * 0.8, 0, Math.PI * 2); ctx.fill();
+      for (let k = 0; k < 4; k++) { const dy = -s * 0.6 + k * s * 0.6;
+        ctx.beginPath(); ctx.moveTo(x, y + dy * 0.4); ctx.lineTo(x - s * 2.2, y + dy - s); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(x, y + dy * 0.4); ctx.lineTo(x + s * 2.2, y + dy - s); ctx.stroke(); }
+    };
+    const resize = () => {
+      W = window.innerWidth; H = window.innerHeight;
+      canvas.width = W * dpr; canvas.height = H * dpr; canvas.style.width = W + "px"; canvas.style.height = H + "px";
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      const count = Math.min(120, Math.max(60, Math.floor((W * H) / 16000)));
+      nodes = Array.from({ length: count }, () => ({ x: Math.random() * W, y: Math.random() * H, vx: (Math.random() - 0.5) * 0.35, vy: (Math.random() - 0.5) * 0.35, depth: 0.4 + Math.random() * 0.6, ph: Math.random() * Math.PI * 2 }));
+      spiders = Array.from({ length: 3 }, () => ({ x: Math.random() * W, y: Math.random() * H, vx: (Math.random() - 0.5) * 0.5, vy: (Math.random() - 0.5) * 0.5, s: 2.5 + Math.random() * 2.5, ph: Math.random() * Math.PI * 2 }));
+    };
+    const py = (n, sOff) => ((((n.y - sOff * 0.12 * n.depth) % H) + H) % H);
+    const draw = () => {
+      t += 1; const TH = thRef.current, sOff = scrollY.current, mx = mouse.current.x, my = mouse.current.y;
+      ctx.clearRect(0, 0, W, H);
+      if (t % 24 === 0 && shots.length < 8 && nodes.length > 1) { const a = nodes[(Math.random() * nodes.length) | 0], b = nodes[(Math.random() * nodes.length) | 0]; if (a !== b) shots.push({ a, b, life: 0, max: 45 }); }
+      ripples.current = ripples.current.filter(r => r.life < r.max);
+      for (const r of ripples.current) { r.life++; const rad = (r.life / r.max) * 280; ctx.strokeStyle = `rgba(${TH.web},${0.5 * (1 - r.life / r.max)})`; ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(r.x, r.y, rad, 0, Math.PI * 2); ctx.stroke(); }
+      for (const n of nodes) {
+        n.x += n.vx; n.y += n.vy; if (n.x < 0 || n.x > W) n.vx *= -1; if (n.y < 0 || n.y > H) n.vy *= -1;
+        const yy = py(n, sOff); let rx = n.x, ry = yy;
+        const ddx = n.x - mx, ddy = yy - my, dd = Math.hypot(ddx, ddy);
+        if (dd < 170 && dd > 0) { const f = (170 - dd) / 170 * 48; rx += (ddx / dd) * f; ry += (ddy / dd) * f; }
+        for (const r of ripples.current) { const rad = (r.life / r.max) * 280, ex = n.x - r.x, ey = yy - r.y, ed = Math.hypot(ex, ey); if (Math.abs(ed - rad) < 50 && ed > 0) { const f = (50 - Math.abs(ed - rad)) / 50 * 26; rx += (ex / ed) * f; ry += (ey / ed) * f; } }
+        n._rx = rx; n._ry = ry; n._dd = dd;
+      }
+      for (let i = 0; i < nodes.length; i++) { const n = nodes[i];
+        for (let j = i + 1; j < nodes.length; j++) { const m = nodes[j]; const d = Math.hypot(n._rx - m._rx, n._ry - m._ry);
+          if (d < 150) { const near = Math.min(n._dd, m._dd) < 170; ctx.strokeStyle = near ? `rgba(${TH.web},${0.2 * (1 - d / 150)})` : `rgba(${TH.node},${0.07 * (1 - d / 150)})`; ctx.lineWidth = near ? 0.9 : 0.6; ctx.beginPath(); ctx.moveTo(n._rx, n._ry); ctx.lineTo(m._rx, m._ry); ctx.stroke(); } } }
+      for (const n of nodes) {
+        if (n._dd < 200) { ctx.strokeStyle = `rgba(${TH.web},${0.5 * (1 - n._dd / 200)})`; ctx.lineWidth = 1.1; ctx.beginPath(); ctx.moveTo(n._rx, n._ry); ctx.lineTo(mx, my); ctx.stroke(); }
+        const pulse = 1.4 + Math.sin(t * 0.03 + n.ph) * 0.6; ctx.beginPath(); ctx.arc(n._rx, n._ry, pulse * n.depth + 0.5, 0, Math.PI * 2); ctx.fillStyle = `rgba(${TH.node},${0.32 * n.depth + 0.14})`; ctx.fill();
+      }
+      shots = shots.filter(s => s.life < s.max);
+      for (const s of shots) { s.life++; const p = s.life / s.max; const ay = py(s.a, sOff), by = py(s.b, sOff);
+        const cx = s.a.x + (s.b.x - s.a.x) * Math.min(1, p * 1.6), cy = ay + (by - ay) * Math.min(1, p * 1.6); const fade = p < 0.6 ? 1 : 1 - (p - 0.6) / 0.4;
+        ctx.strokeStyle = `rgba(${TH.web},${0.5 * fade})`; ctx.lineWidth = 1.4; ctx.beginPath(); ctx.moveTo(s.a.x, ay); ctx.lineTo(cx, cy); ctx.stroke();
+        ctx.beginPath(); ctx.arc(cx, cy, 2 * fade, 0, Math.PI * 2); ctx.fillStyle = `rgba(${TH.web},${0.7 * fade})`; ctx.fill(); }
+      for (const sp of spiders) { sp.x += sp.vx; sp.y += sp.vy + Math.sin(t * 0.02 + sp.ph) * 0.15;
+        if (sp.x < -20) sp.x = W + 20; if (sp.x > W + 20) sp.x = -20; if (sp.y < -20) sp.y = H + 20; if (sp.y > H + 20) sp.y = -20;
+        const sy = ((((sp.y - sOff * 0.16)) % (H + 40)) + (H + 40)) % (H + 40) - 20;
+        ctx.strokeStyle = `rgba(${TH.node},0.06)`; ctx.lineWidth = 0.5; ctx.beginPath(); ctx.moveTo(sp.x, sy - sp.s * 2.2); ctx.lineTo(sp.x, sy - 200); ctx.stroke();
+        drawSpider(sp.x, sy, sp.s, `rgba(${TH.web},0.5)`); }
+      raf = requestAnimationFrame(draw);
+    };
+    const mv = e => { mouse.current.x = e.clientX; mouse.current.y = e.clientY; };
+    const ml = () => { mouse.current.x = -999; mouse.current.y = -999; };
+    const sc = () => scrollY.current = window.scrollY;
+    const cl = e => ripples.current.push({ x: e.clientX, y: e.clientY, life: 0, max: 40 });
+    resize(); draw();
+    window.addEventListener("resize", resize); window.addEventListener("pointermove", mv, { passive: true }); window.addEventListener("pointerout", ml); window.addEventListener("scroll", sc, { passive: true }); window.addEventListener("pointerdown", cl, { passive: true });
+    return () => { cancelAnimationFrame(raf); window.removeEventListener("resize", resize); window.removeEventListener("pointermove", mv); window.removeEventListener("pointerout", ml); window.removeEventListener("scroll", sc); window.removeEventListener("pointerdown", cl); };
+  }, []);
+  return <canvas ref={ref} style={{ position: "fixed", inset: 0, zIndex: 1, pointerEvents: "none" }} />;
+}
+
+/* ================= CINEMATIC INTRO (web-shatter) ================= */
+function CinematicIntro({ th, mono, display, onDone }) {
+  const [stage, setStage] = useState(0);
+  const started = useRef(false);
+  useEffect(() => {
+    if (started.current) return; started.current = true;
+    const t1 = setTimeout(() => setStage(1), 2200);
+    const t2 = setTimeout(() => setStage(2), 3200);
+    const t3 = setTimeout(onDone, 4100);
+    return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); };
+  }, [onDone]);
+  const cx = 50, cy = 44, SPOKES = 20, RINGS = [6, 13, 21, 31, 43, 57, 73, 92];
+  const shards = [];
+  for (let s = 0; s < SPOKES; s++) { const a0 = (s / SPOKES) * Math.PI * 2, a1 = ((s + 1) / SPOKES) * Math.PI * 2;
+    for (let r = 0; r < RINGS.length - 1; r++) { const r0 = RINGS[r], r1 = RINGS[r + 1], mid = (a0 + a1) / 2, midR = (r0 + r1) / 2, dirX = Math.cos(mid), dirY = Math.sin(mid);
+      shards.push({ id: `${s}-${r}`, pts: [[cx + Math.cos(a0) * r0 * 0.9, cy + Math.sin(a0) * r0 * 0.9],[cx + Math.cos(a1) * r0 * 0.9, cy + Math.sin(a1) * r0 * 0.9],[cx + Math.cos(a1) * r1 * 0.9, cy + Math.sin(a1) * r1 * 0.9],[cx + Math.cos(a0) * r1 * 0.9, cy + Math.sin(a0) * r1 * 0.9]], tx: dirX * (90 + midR * 1.8), ty: dirY * (90 + midR * 1.8) + 30, rot: (Math.random() - 0.5) * 360, delay: r * 0.03 + Math.random() * 0.04 }); } }
+  const spokeLines = Array.from({ length: SPOKES }, (_, i) => { const a = (i / SPOKES) * Math.PI * 2; return { x2: cx + Math.cos(a) * 75, y2: cy + Math.sin(a) * 75 }; });
+  const ringPolys = RINGS.map(r => Array.from({ length: SPOKES }, (_, i) => { const a = (i / SPOKES) * Math.PI * 2; return `${cx + Math.cos(a) * r},${cy + Math.sin(a) * r}`; }).join(" "));
+  return (
+    <div style={{ position: "fixed", inset: 0, zIndex: 9000, pointerEvents: "none" }}>
+      {stage < 2 && (
+        <div style={{ position: "absolute", inset: 0, background: th.accent, overflow: "hidden", animation: stage === 1 ? "coverFlash .9s ease forwards, crackShake .9s ease forwards" : "none" }}>
+          <div style={{ position: "absolute", inset: 0, opacity: 0.12, backgroundImage: "radial-gradient(#000 2px, transparent 2px)", backgroundSize: "16px 16px" }} />
+          <div style={{ position: "absolute", inset: 0, background: "repeating-linear-gradient(115deg, transparent 0 60px, rgba(0,0,0,0.05) 60px 120px)" }} />
+          <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", animation: "coverPop .7s cubic-bezier(.2,.9,.3,1.5) .1s both" }}>
+            <div style={{ textAlign: "center" }}>
+              <div style={{ fontFamily: display, fontSize: "9vw", color: "#fff", textTransform: "uppercase", letterSpacing: -4, lineHeight: 0.85, textShadow: "6px 6px 0 rgba(0,0,0,0.28)", whiteSpace: "nowrap" }}>THE DATA SLINGER</div>
+              <div style={{ fontFamily: mono, fontSize: "1.4vw", letterSpacing: 8, color: "#fff", marginTop: "1.5vw", opacity: 0.9 }}>ADITYA MARATHE</div>
+            </div>
+          </div>
+          {stage === 1 && (
+            <svg viewBox="0 0 100 100" preserveAspectRatio="none" style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}>
+              {spokeLines.map((l, i) => (<line key={i} x1={cx} y1={cy} x2={l.x2} y2={l.y2} stroke="rgba(255,255,255,0.95)" strokeWidth="0.5" vectorEffect="non-scaling-stroke" style={{ strokeDasharray: 120, strokeDashoffset: 120, animation: `crackGrow .45s ease-out ${i * 0.012}s forwards` }} />))}
+              {ringPolys.map((p, i) => (<polygon key={i} points={p} fill="none" stroke="rgba(255,255,255,0.85)" strokeWidth="0.4" vectorEffect="non-scaling-stroke" style={{ opacity: 0, animation: `crackRing .35s ease-out ${0.18 + i * 0.045}s forwards` }} />))}
+            </svg>
+          )}
+        </div>
+      )}
+      {stage === 2 && <div style={{ position: "absolute", inset: 0, background: "#fff", animation: "flashBurst .5s ease-out forwards" }} />}
+      {stage === 2 && (
+        <svg viewBox="0 0 100 100" preserveAspectRatio="none" style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}>
+          {shards.map(sh => (<polygon key={sh.id} points={sh.pts.map(p => p.join(",")).join(" ")} fill={th.accent} stroke="rgba(0,0,0,0.12)" strokeWidth="0.2" vectorEffect="non-scaling-stroke" style={{ transformBox: "fill-box", transformOrigin: "center", animation: `shardFly .9s cubic-bezier(.4,0,.6,1) ${sh.delay}s forwards`, "--tx": `${sh.tx}px`, "--ty": `${sh.ty}px`, "--rot": `${sh.rot}deg` }} />))}
+        </svg>
+      )}
+    </div>
+  );
+}
+
+/* ================= CURSOR ================= */
+function WebCursor({ th }) {
+  const dot = useRef(null), ring = useRef(null); const [down, setDown] = useState(false);
+  useEffect(() => {
+    let rx = 0, ry = 0, mx = 0, my = 0, raf;
+    const move = e => { mx = e.clientX; my = e.clientY; if (dot.current) dot.current.style.transform = `translate(${mx}px,${my}px)`; };
+    const loop = () => { rx += (mx - rx) * 0.18; ry += (my - ry) * 0.18; if (ring.current) ring.current.style.transform = `translate(${rx}px,${ry}px)`; raf = requestAnimationFrame(loop); };
+    const d = () => setDown(true), u = () => setDown(false);
+    window.addEventListener("pointermove", move); window.addEventListener("pointerdown", d); window.addEventListener("pointerup", u); loop();
+    return () => { cancelAnimationFrame(raf); window.removeEventListener("pointermove", move); window.removeEventListener("pointerdown", d); window.removeEventListener("pointerup", u); };
+  }, []);
+  const base = { position: "fixed", top: 0, left: 0, zIndex: 9999, pointerEvents: "none", borderRadius: "50%" };
+  return (<React.Fragment>
+    <div ref={dot} style={{ ...base, width: 7, height: 7, background: th.accent, boxShadow: `0 0 12px ${th.accent}`, marginTop: -3.5, marginLeft: -3.5 }} />
+    <div ref={ring} style={{ ...base, width: down ? 24 : 34, height: down ? 24 : 34, border: `1.5px solid ${th.accent}`, marginTop: down ? -12 : -17, marginLeft: down ? -12 : -17, transition: "width .15s, height .15s, margin .15s", opacity: 0.7 }} />
+  </React.Fragment>);
+}
+
+/* ================= HERO WEB ================= */
+function HeroWeb({ load, th, pulse }) {
+  const rings = [50, 105, 160, 215, 270, 320], spokes = 14, cx = 200, cy = 200;
+  return (
+    <svg viewBox="0 0 400 400" style={{ width: "100%", height: "100%", overflow: "visible", transform: pulse ? "scale(1.35)" : "scale(1)", transition: pulse ? "transform .55s cubic-bezier(.16,1.1,.3,1)" : "transform .6s ease" }}>
+      {Array.from({ length: spokes * 2 }).map((_, i) => { const ang = (i / (spokes * 2)) * Math.PI * 2;
+        return <line key={"burst" + i} x1={cx} y1={cy} x2={cx + Math.cos(ang) * (pulse ? 400 : 0)} y2={cy + Math.sin(ang) * (pulse ? 400 : 0)} stroke={th.accent} strokeWidth={pulse ? 2 : 0} strokeLinecap="round" style={{ opacity: 0, animation: pulse ? `burstLine 1.5s ease-out ${i * 0.018}s forwards` : "none", filter: `drop-shadow(0 0 6px ${th.accent})` }} />; })}
+      {Array.from({ length: spokes }).map((_, i) => { const ang = (i / spokes) * Math.PI * 2;
+        return <line key={"s" + i} x1={cx} y1={cy} x2={cx + Math.cos(ang) * 340} y2={cy + Math.sin(ang) * 340} stroke={`rgba(${th.node},0.16)`} strokeWidth="1" style={{ opacity: load ? 1 : 0, transition: `opacity .5s ease ${0.3 + i * 0.03}s` }} />; })}
+      {rings.map((r, ri) => { const pts = Array.from({ length: spokes }).map((_, i) => { const ang = (i / spokes) * Math.PI * 2; return `${cx + Math.cos(ang) * r},${cy + Math.sin(ang) * r}`; }).join(" ");
+        return <polygon key={"r" + ri} points={pts} fill="none" stroke={th.accent} strokeOpacity={pulse ? 0.95 : 0.45} strokeWidth={pulse ? 2.4 : 1} style={{ opacity: load ? 1 : 0, transform: load ? `scale(${pulse ? 1 + ri * 0.04 : 1})` : "scale(0.3)", transformOrigin: "200px 200px", transition: `opacity .7s ease ${0.5 + ri * 0.1}s, stroke-opacity .4s ease, stroke-width .4s ease, transform .55s cubic-bezier(.16,1.1,.3,1) ${pulse ? ri * 0.05 : 0}s`, filter: `drop-shadow(0 0 ${pulse ? 12 : 4}px ${th.accent}${pulse ? "cc" : "66"})` }} />; })}
+      <circle cx={cx} cy={cy} r={pulse ? 26 : 0} fill={th.accent} style={{ opacity: 0, animation: pulse ? "centerFlash .6s ease-out forwards" : "none" }} />
+    </svg>
+  );
+}
+
+/* ================= SCROLL CRAWLER SPIDER ================= */
+function ScrollSpider({ th }) {
+  const [pct, setPct] = useState(0); const [moving, setMoving] = useState(false);
+  useEffect(() => { let tmo;
+    const onS = () => { const h = document.documentElement; setPct(Math.max(0, Math.min(1, h.scrollTop / (h.scrollHeight - h.clientHeight) || 0))); setMoving(true); clearTimeout(tmo); tmo = setTimeout(() => setMoving(false), 160); };
+    window.addEventListener("scroll", onS, { passive: true }); onS();
+    return () => { window.removeEventListener("scroll", onS); clearTimeout(tmo); };
+  }, []);
+  const topVh = 8 + pct * 82;
+  return (
+    <div className="scroll-spider" style={{ position: "fixed", right: 22, top: `${topVh}vh`, zIndex: 40, pointerEvents: "none", transition: "top .25s cubic-bezier(.3,.7,.3,1)" }}>
+      <div style={{ position: "absolute", left: "50%", bottom: "100%", width: 1, height: `${topVh}vh`, background: `linear-gradient(to bottom, transparent, ${th.accent}55)`, transform: "translateX(-50%)" }} />
+      <svg width="40" height="40" viewBox="0 0 100 100" style={{ display: "block", filter: `drop-shadow(0 0 6px ${th.accent}88)` }}>
+        <g stroke={th.accent} strokeWidth="3.2" strokeLinecap="round" fill="none">
+          <path className={moving ? "leg legA" : "leg"} d="M42 44 Q 22 36 10 42" /><path className={moving ? "leg legB" : "leg"} d="M42 50 Q 20 50 8 56" /><path className={moving ? "leg legA" : "leg"} d="M42 56 Q 22 62 12 70" /><path className={moving ? "leg legB" : "leg"} d="M44 60 Q 30 72 24 84" />
+          <path className={moving ? "leg legB" : "leg"} d="M58 44 Q 78 36 90 42" /><path className={moving ? "leg legA" : "leg"} d="M58 50 Q 80 50 92 56" /><path className={moving ? "leg legB" : "leg"} d="M58 56 Q 78 62 88 70" /><path className={moving ? "leg legA" : "leg"} d="M56 60 Q 70 72 76 84" />
+        </g>
+        <ellipse cx="50" cy="58" rx="13" ry="17" fill={th.accent} /><circle cx="50" cy="42" r="9" fill={th.accent} /><circle cx="46.5" cy="41" r="2.1" fill={th.ink} /><circle cx="53.5" cy="41" r="2.1" fill={th.ink} />
+      </svg>
+    </div>
+  );
+}
+
+/* ================= HOOKS ================= */
+function useInView(threshold = 0.2, once = true) {
+  const ref = useRef(null); const [seen, setSeen] = useState(false);
+  useEffect(() => { const el = ref.current; if (!el) return;
+    const o = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setSeen(true); if (once) o.unobserve(el); } }, { threshold });
+    o.observe(el); return () => o.disconnect();
+  }, [threshold, once]);
+  return [ref, seen];
+}
+function Reveal({ children, delay = 0, from = "up" }) {
+  const [ref, seen] = useInView(0.15);
+  const off = { up: "translateY(34px)", left: "translateX(-44px)", right: "translateX(44px)", scale: "scale(0.92)" }[from] || "translateY(34px)";
+  return <div ref={ref} style={{ opacity: seen ? 1 : 0, transform: seen ? "none" : off, transition: `opacity .7s cubic-bezier(.2,.7,.2,1) ${delay}s, transform .8s cubic-bezier(.2,.8,.2,1) ${delay}s` }}>{children}</div>;
+}
+function Counter({ value, suffix = "", decimals = 0 }) {
+  const [ref, seen] = useInView(0.5); const [n, setN] = useState(0);
+  useEffect(() => { if (!seen) return; let raf, start;
+    const tick = ts => { if (!start) start = ts; const p = Math.min((ts - start) / 1400, 1); setN(value * (1 - Math.pow(1 - p, 3))); if (p < 1) raf = requestAnimationFrame(tick); };
+    raf = requestAnimationFrame(tick); return () => cancelAnimationFrame(raf);
+  }, [seen, value]);
+  return <span ref={ref}>{decimals > 0 ? n.toFixed(decimals) : Math.round(n).toLocaleString()}{suffix}</span>;
+}
+
+/* ================= CHURN DEMO ================= */
+function ChurnDemo({ th, mono, display }) {
+  const [tenure, setTenure] = useState(8), [tickets, setTickets] = useState(3), [usage, setUsage] = useState(60);
+  const cTenure = (12 - tenure) * 3.2, cTickets = tickets * 6.5, cUsage = (100 - usage) * 0.45;
+  const prob = Math.max(2, Math.min(98, 8 + cTenure + cTickets + cUsage));
+  const risk = prob > 66 ? "HIGH" : prob > 38 ? "MEDIUM" : "LOW";
+  const rc = prob > 66 ? th.accent : prob > 38 ? "#f5a623" : "#3ecf8e";
+  const feats = [{ name: "Short tenure", v: cTenure }, { name: "Support tickets", v: cTickets }, { name: "Low usage", v: cUsage }];
+  const maxAbs = Math.max(...feats.map(f => Math.abs(f.v)), 1);
+  const ang = (prob / 100) * 180, rad = (a) => (a - 180) * Math.PI / 180, ax = 60 + 50 * Math.cos(rad(ang)), ay = 60 + 50 * Math.sin(rad(ang));
+  return (
+    <div style={{ border: `1px solid ${th.accent}33`, borderRadius: 16, padding: 24, background: `rgba(${th.node},0.03)`, marginTop: 6, boxShadow: `inset 0 0 40px ${th.accent}0a` }}>
+      <div style={{ fontFamily: mono, fontSize: 12, color: th.accent, letterSpacing: 1, marginBottom: 6 }}>// LIVE · CHURN RISK EXPLAINER</div>
+      <div style={{ fontSize: 13.5, color: "#9aa6c2", marginBottom: 20 }}>A toy model in the spirit of my RetainIQ project — drag the inputs and watch the gauge and SHAP-style contribution waterfall react in real time.</div>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 28, alignItems: "center" }} className="demo-grid">
+        <div>
+          {[["Tenure (months)", tenure, setTenure, 1, 12, t => `${t} mo`], ["Support tickets", tickets, setTickets, 0, 10, t => `${t}`], ["Feature usage", usage, setUsage, 5, 100, t => `${t}%`]].map(([lab, val, set, mn, mx, fmt]) => (
+            <div key={lab} style={{ marginBottom: 18 }}>
+              <div style={{ display: "flex", justifyContent: "space-between", fontSize: 13, marginBottom: 6 }}><span style={{ color: "#bcc6db" }}>{lab}</span><span style={{ color: th.accent, fontFamily: mono, fontWeight: 700 }}>{fmt(val)}</span></div>
+              <input type="range" min={mn} max={mx} value={val} onChange={e => set(Number(e.target.value))} style={{ width: "100%", accentColor: th.accent, cursor: "none" }} />
+            </div>
+          ))}
+          <div style={{ marginTop: 8 }}>
+            <div style={{ fontFamily: mono, fontSize: 10.5, color: "#8b96b0", letterSpacing: 1, marginBottom: 10 }}>SHAP-STYLE CONTRIBUTION</div>
+            {feats.map(f => (<div key={f.name} style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 8 }}><span style={{ fontSize: 11, color: "#bcc6db", width: 96, flexShrink: 0 }}>{f.name}</span><div style={{ flex: 1, height: 9, borderRadius: 4, background: `rgba(${th.node},0.07)`, overflow: "hidden" }}><div style={{ height: "100%", width: `${(Math.abs(f.v) / maxAbs) * 100}%`, background: `linear-gradient(90deg, ${th.accent2}, ${th.accent})`, borderRadius: 4, transition: "width .3s ease" }} /></div></div>))}
+          </div>
+        </div>
+        <div style={{ textAlign: "center" }}>
+          <svg viewBox="0 0 120 75" style={{ width: "100%", maxWidth: 240 }}>
+            <path d="M10,60 A50,50 0 0 1 110,60" fill="none" stroke={`rgba(${th.node},0.12)`} strokeWidth="9" strokeLinecap="round" />
+            <path d={`M10,60 A50,50 0 0 1 ${ax},${ay}`} fill="none" stroke={rc} strokeWidth="9" strokeLinecap="round" style={{ transition: "all .3s ease", filter: `drop-shadow(0 0 6px ${rc})` }} />
+          </svg>
+          <div style={{ fontFamily: display, fontSize: 46, color: rc, lineHeight: 1, marginTop: -6, textShadow: `0 0 26px ${rc}77` }}>{Math.round(prob)}%</div>
+          <div style={{ fontFamily: mono, fontSize: 12, letterSpacing: 2, color: rc, marginTop: 4 }}>{risk} CHURN RISK</div>
+        </div>
       </div>
-      <span class="cmd-item-hint">${item.hint}</span>`;
-    div.addEventListener('click', () => runCmd(item));
-    cmdList.appendChild(div);
-  });
+    </div>
+  );
 }
 
-function filterCmd() {
-  const q = cmdInput.value.toLowerCase();
-  filtered = cmdItems.filter(i => i.text.toLowerCase().includes(q) || i.hint.toLowerCase().includes(q));
-  selectedIdx = 0;
-  renderCmdList();
+/* ================= PREVIEW PANELS =================
+   ── HOW TO ADD REAL SCREENSHOTS ──
+   1. Put screenshots in your repo, e.g.  /images/healthcare.png
+   2. Add an `img` key to each project in DATA.projects, e.g.
+        { n: "01", ..., preview: "hospital", img: "images/healthcare.png" }
+   3. Done — if `img` is set the real screenshot shows; otherwise the
+      stylized fallback panel renders. Use ~2.5:1 wide images.
+*/
+function ProjectPreview({ kind, img, th }) {
+  if (img) return <img src={img} alt="project preview" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />;
+  const grid = `rgba(${th.node},0.08)`;
+  if (kind === "hospital") return (
+    <svg viewBox="0 0 320 150" style={{ width: "100%", height: "100%", display: "block" }}>
+      <rect width="320" height="150" fill={`${th.accent2}0c`} />
+      {[30,55,80,105,130].map(y=><line key={y} x1="14" y1={y} x2="306" y2={y} stroke={grid} strokeWidth="0.5" />)}
+      {[42,68,54,92,78,108,88,64].map((h, i) => (<rect key={i} x={20 + i * 36} y={130 - h} width="22" height={h} rx="2" fill={i === 5 ? th.accent : th.accent2} opacity={i === 5 ? 1 : 0.5}><animate attributeName="height" from="0" to={h} dur="0.8s" begin={`${i*0.06}s`} fill="freeze" /><animate attributeName="y" from="130" to={130-h} dur="0.8s" begin={`${i*0.06}s`} fill="freeze" /></rect>))}
+      <rect x="14" y="12" width="70" height="9" rx="2" fill={`rgba(${th.node},0.25)`} />
+    </svg>
+  );
+  if (kind === "churn") return (
+    <svg viewBox="0 0 320 150" style={{ width: "100%", height: "100%", display: "block" }}>
+      <rect width="320" height="150" fill={`${th.accent2}0c`} />
+      {[40,70,100].map(y=><line key={y} x1="14" y1={y} x2="306" y2={y} stroke={grid} strokeWidth="0.5" />)}
+      <polyline points="10,120 60,90 110,100 160,55 210,60 260,28 310,34 310,150 10,150" fill={`${th.accent}1c`} stroke="none" />
+      <polyline points="10,120 60,90 110,100 160,55 210,60 260,28 310,34" fill="none" stroke={th.accent} strokeWidth="2.5" style={{ filter: `drop-shadow(0 0 4px ${th.accent}88)` }} />
+      {[[60,90],[160,55],[260,28]].map(([x,y],i)=><circle key={i} cx={x} cy={y} r="4" fill={th.accent} stroke="#fff" strokeWidth="1.5" />)}
+      <rect x="14" y="12" width="80" height="9" rx="2" fill={`rgba(${th.node},0.25)`} />
+    </svg>
+  );
+  return (
+    <svg viewBox="0 0 320 150" style={{ width: "100%", height: "100%", display: "block" }}>
+      <rect width="320" height="150" fill={`${th.accent2}0c`} />
+      {[40,70,100].map(y=><line key={y} x1="14" y1={y} x2="306" y2={y} stroke={grid} strokeWidth="0.5" />)}
+      {[[th.accent,[10,100,70,60,130,75,190,40,250,52,310,30]],[th.accent2,[10,115,70,95,130,88,190,70,250,66,310,58]]].map(([c,pts],i)=>(<polyline key={i} points={pts.join(",")} fill="none" stroke={c} strokeWidth="2.4" opacity="0.95" style={{ filter: `drop-shadow(0 0 3px ${c}66)` }} />))}
+      {Array.from({length:4}).map((_,i)=><circle key={i} cx={40+i*30} cy={18} r="5" fill="none" stroke={`rgba(${th.node},0.3)`} strokeWidth="1.5" />)}
+    </svg>
+  );
 }
 
-function runCmd(item) {
-  if (item.type === 'scroll') {
-    const el = document.querySelector(item.target);
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
-  } else if (item.type === 'external') {
-    window.open(item.target, '_blank');
-  }
-  closePalette();
+/* ================= WEB-SWING CONNECTOR ================= */
+function WebSwing({ th, flip }) {
+  const [ref, seen] = useInView(0.4);
+  const d = flip ? "M380 0 Q 200 80 20 0" : "M20 0 Q 200 80 380 0";
+  return (
+    <div ref={ref} style={{ height: 70, position: "relative", overflow: "visible" }}>
+      <svg viewBox="0 0 400 70" preserveAspectRatio="none" style={{ width: "100%", height: "100%" }}>
+        <path d={d} fill="none" stroke={th.accent} strokeWidth="1.5" strokeOpacity="0.55" strokeDasharray="600" strokeDashoffset={seen ? 0 : 600} style={{ transition: "stroke-dashoffset 1.1s cubic-bezier(.4,0,.2,1)", filter: `drop-shadow(0 0 3px ${th.accent}66)` }} />
+        {seen && (<circle r="4" fill={th.accent} style={{ filter: `drop-shadow(0 0 8px ${th.accent})` }}><animateMotion dur="1.1s" path={d} fill="freeze" keyPoints="0;1" keyTimes="0;1" calcMode="spline" keySplines="0.4 0 0.2 1" /><animate attributeName="opacity" values="0;1;1;0" dur="1.1s" fill="freeze" /></circle>)}
+        <circle cx={flip ? 20 : 380} cy="0" r="3.5" fill={th.accent} style={{ opacity: seen ? 1 : 0, transition: "opacity .3s ease 1s" }} />
+      </svg>
+    </div>
+  );
 }
 
-function openPalette() {
-  overlay.classList.add('open');
-  cmdInput.value = '';
-  filtered = cmdItems.slice();
-  selectedIdx = 0;
-  renderCmdList();
-  setTimeout(() => cmdInput.focus(), 50);
+/* ================= MAIN ================= */
+function Portfolio() {
+  const [load, setLoad] = useState(false);
+  const [activeArch, setActiveArch] = useState(null);
+  const [scrollPct, setScrollPct] = useState(0);
+  const [themeKey, setThemeKey] = useState("classic");
+  const [intro, setIntro] = useState(true);
+  const [egg, setEgg] = useState(false);
+  const [shake, setShake] = useState(false);
+  const [webPulse, setWebPulse] = useState(false);
+  const [activeSec, setActiveSec] = useState("about");
+  const th = THEMES[themeKey];
+  const scrollToId = (id) => { const el = document.getElementById(id); if (el) el.scrollIntoView({ behavior: "smooth", block: "start" }); };
+  const endIntro = useRef(() => setIntro(false)).current;
+  const enterWeb = () => { setWebPulse(true); setTimeout(() => setWebPulse(false), 1600); setTimeout(() => scrollToId("projects"), 1150); };
+  useEffect(() => {
+    const id = setTimeout(() => setLoad(true), 3300);
+    const onS = () => { const h = document.documentElement; setScrollPct((h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100 || 0);
+      const ids = ["about", "experience", "projects", "skills", "contact"]; let cur = ids[0];
+      for (const sid of ids) { const el = document.getElementById(sid); if (el && el.getBoundingClientRect().top <= 140) cur = sid; } setActiveSec(cur); };
+    window.addEventListener("scroll", onS, { passive: true });
+    const seq = ["ArrowUp","ArrowUp","ArrowDown","ArrowDown","ArrowLeft","ArrowRight","ArrowLeft","ArrowRight","b","a"]; let pos = 0;
+    const onKey = e => { const k = e.key.length === 1 ? e.key.toLowerCase() : e.key; pos = (k === seq[pos]) ? pos + 1 : (k === seq[0] ? 1 : 0);
+      if (pos === seq.length) { setThemeKey("symbiote"); setEgg(true); setShake(true); pos = 0; setTimeout(() => setShake(false), 700); setTimeout(() => setEgg(false), 2800); } };
+    window.addEventListener("keydown", onKey);
+    return () => { clearTimeout(id); window.removeEventListener("scroll", onS); window.removeEventListener("keydown", onKey); };
+  }, []);
+  const mono = "'JetBrains Mono','Fira Code',ui-monospace,monospace";
+  const display = "'Arial Black','Helvetica Neue',Impact,sans-serif";
+  const nav = ["About", "Experience", "Projects", "Skills", "Contact"];
+  return (
+    <div style={{ background: th.ink, color: "#dbe2f0", minHeight: "100vh", fontFamily: "'Inter',system-ui,sans-serif", position: "relative", overflow: "hidden", cursor: "none", transition: "background .5s", animation: shake ? "screenShake .6s linear" : "none" }}>
+      {intro && <CinematicIntro th={th} mono={mono} display={display} onDone={endIntro} />}
+      <WebCursor th={th} />
+      <div style={{ position: "fixed", inset: 0, zIndex: 0, background: `radial-gradient(ellipse at 78% -12%, ${th.glowB}, transparent 52%), radial-gradient(ellipse at -5% 105%, ${th.glowA}, transparent 50%)`, transition: "background .5s" }} />
+      <div style={{ position: "fixed", inset: 0, zIndex: 0, opacity: 0.55, backgroundImage: `radial-gradient(rgba(${th.node},0.10) 1px, transparent 1px)`, backgroundSize: "24px 24px" }} />
+      <WebBackground th={th} />
+      <ScrollSpider th={th} />
+      <div style={{ position: "fixed", top: 0, left: 0, height: 3, width: `${scrollPct}%`, background: `linear-gradient(90deg, ${th.accent2}, ${th.accent})`, zIndex: 100, boxShadow: `0 0 12px ${th.accent}` }} />
+      <button onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} title="Swing to top" style={{ position: "fixed", bottom: 26, right: 26, zIndex: 80, width: 52, height: 52, borderRadius: "50%", background: th.panel, border: `2px solid ${th.accent}`, display: "flex", alignItems: "center", justifyContent: "center", cursor: "none", boxShadow: `0 0 20px ${th.accent}66`, opacity: scrollPct > 6 ? 1 : 0, transform: scrollPct > 6 ? "scale(1)" : "scale(0.6)", pointerEvents: scrollPct > 6 ? "auto" : "none", transition: "opacity .3s, transform .3s" }}>
+        <svg viewBox="0 0 24 24" width="22" height="22" style={{ filter: `drop-shadow(0 0 4px ${th.accent})` }}><circle cx="12" cy="12" r="10" fill="none" stroke={th.accent} strokeWidth="1" opacity="0.4" />{Array.from({ length: 8 }).map((_, i) => { const a = (i / 8) * Math.PI * 2; return <line key={i} x1="12" y1="12" x2={12 + Math.cos(a) * 10} y2={12 + Math.sin(a) * 10} stroke={th.accent} strokeWidth="0.8" opacity="0.5" />; })}<path d="M12 7l-4 5h8z" fill={th.accent} /></svg>
+      </button>
+      {egg && (<div style={{ position: "fixed", inset: 0, zIndex: 8500, pointerEvents: "none", display: "flex", alignItems: "center", justifyContent: "center", animation: "eggFade 2.8s ease forwards" }}><div style={{ position: "absolute", inset: 0, background: "rgba(3,3,5,0.72)" }} /><div style={{ position: "relative", textAlign: "center" }}><div style={{ fontFamily: display, fontSize: "clamp(44px,10vw,90px)", color: "#fff", textTransform: "uppercase", letterSpacing: -2, textShadow: `0 0 36px #a855f7, 3px 0 #a855f7, -3px 0 ${th.accent}`, animation: "glitch .35s steps(2) infinite" }}>SYMBIOTE<br/>MODE</div><div style={{ fontFamily: mono, fontSize: 14, letterSpacing: 4, color: "#a855f7", marginTop: 12 }}>// WE ARE VENOM</div></div></div>)}
+      <div style={{ position: "relative", zIndex: 10 }}>
+        <header style={{ position: "sticky", top: 0, zIndex: 50, backdropFilter: "blur(12px)", background: `${th.ink}b8`, borderBottom: `1px solid rgba(${th.node},0.07)` }}>
+          <div style={{ maxWidth: 960, margin: "0 auto", padding: "16px 30px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <a href="#top" onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: "smooth" }); }} style={{ fontFamily: display, fontSize: 21, color: "#fff", textDecoration: "none", letterSpacing: 1, cursor: "none" }}>A<span style={{ color: th.accent }}>M</span></a>
+            <div style={{ display: "flex", gap: 24, alignItems: "center" }}>
+              <nav style={{ display: "flex", gap: 24 }} className="topnav">
+                {nav.map(l => { const isActive = activeSec === l.toLowerCase(); return (
+                  <a key={l} onClick={(e) => { e.preventDefault(); scrollToId(l.toLowerCase()); }} href={`#${l.toLowerCase()}`} style={{ position: "relative", color: isActive ? th.accent : "#9aa6bf", textDecoration: "none", fontSize: 13.5, fontWeight: 600, transition: "color .2s", cursor: "none", paddingBottom: 4 }} onMouseEnter={e => e.currentTarget.style.color = th.accent} onMouseLeave={e => e.currentTarget.style.color = isActive ? th.accent : "#9aa6bf"}>{l}<span style={{ position: "absolute", left: 0, bottom: 0, height: 2, width: isActive ? "100%" : "0%", background: th.accent, borderRadius: 2, boxShadow: isActive ? `0 0 8px ${th.accent}` : "none", transition: "width .3s ease" }} /></a>); })}
+              </nav>
+              <button onClick={() => setThemeKey(k => THEME_ORDER[(THEME_ORDER.indexOf(k) + 1) % THEME_ORDER.length])} style={{ fontFamily: mono, fontSize: 11, fontWeight: 700, letterSpacing: 1, color: "#fff", background: themeKey === "classic" ? th.panel : th.accent2, border: `1.5px solid ${th.accent}`, borderRadius: 20, padding: "6px 14px", cursor: "none", minWidth: 96 }}>{themeKey === "classic" ? "◑ SYMBIOTE" : themeKey === "symbiote" ? "◑ GWEN" : "◐ CLASSIC"}</button>
+            </div>
+          </div>
+        </header>
+        <main id="top" style={{ maxWidth: 960, margin: "0 auto", padding: "0 30px" }}>
+          <section style={{ minHeight: "94vh", display: "grid", gridTemplateColumns: "1.25fr 1fr", alignItems: "center", gap: 30 }} className="hero-grid">
+            <div>
+              <div style={{ fontFamily: mono, fontSize: 13, color: th.accent, letterSpacing: 3, marginBottom: 20, opacity: load ? 1 : 0, transform: load ? "none" : "translateY(16px)", transition: "all .7s ease .1s" }}>⊹ MS APPLIED DATA SCIENCE // SYRACUSE</div>
+              <h1 style={{ fontFamily: display, fontSize: "clamp(52px,9vw,108px)", lineHeight: 0.88, margin: 0, color: "#fff", letterSpacing: -3, textTransform: "uppercase" }}>
+                <span style={{ display: "block", overflow: "hidden" }}><span style={{ display: "inline-block", transform: load ? "none" : "translateY(110%)", transition: "transform .9s cubic-bezier(.2,.9,.2,1) .15s" }}>Aditya</span></span>
+                <span style={{ display: "block", overflow: "hidden" }}><span style={{ display: "inline-block", color: th.accent, transform: load ? "none" : "translateY(110%)", transition: "transform .9s cubic-bezier(.2,.9,.2,1) .28s", textShadow: `0 0 40px ${th.accent}aa` }}>Marathe</span></span>
+              </h1>
+              <div style={{ fontFamily: mono, fontSize: "clamp(14px,2vw,18px)", color: th.accent2, fontWeight: 700, marginTop: 20, letterSpacing: 1.5, opacity: load ? 1 : 0, transition: "opacity .8s ease .6s" }}>{DATA.title.toUpperCase()}</div>
+              <p style={{ fontSize: 17.5, lineHeight: 1.7, color: "#aab4cc", maxWidth: 500, marginTop: 22, opacity: load ? 1 : 0, transform: load ? "none" : "translateY(18px)", transition: "all .8s ease .75s" }}>{DATA.tagline}</p>
+              <div style={{ display: "flex", gap: 14, marginTop: 32, flexWrap: "wrap", alignItems: "center", opacity: load ? 1 : 0, transition: "opacity .8s ease .9s" }}>
+                <button onClick={enterWeb} style={{ background: th.accent, color: themeKey === "symbiote" ? "#000" : "#fff", padding: "14px 28px", borderRadius: 8, fontWeight: 800, fontSize: 14.5, border: "none", letterSpacing: 0.5, boxShadow: `0 10px 30px -8px ${th.accent}`, textTransform: "uppercase", cursor: "none" }}>Enter the Web →</button>
+                <button onClick={() => scrollToId("contact")} style={{ border: `2px solid ${th.accent2}`, background: "none", color: "#fff", padding: "12px 26px", borderRadius: 8, fontWeight: 700, fontSize: 14.5, textTransform: "uppercase", cursor: "none" }}>Contact</button>
+              </div>
+            </div>
+            <div onClick={enterWeb} style={{ aspectRatio: "1", maxWidth: 400, justifySelf: "center", position: "relative", cursor: "none" }} className="hero-web">
+              <HeroWeb load={load} th={th} pulse={webPulse} />
+              <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: display, fontSize: 42, color: "#fff", opacity: load ? 1 : 0, transition: "opacity 1s ease 1.1s" }}><span style={{ color: th.accent, textShadow: `0 0 30px ${th.accent}` }}>{"</>"}</span></div>
+            </div>
+          </section>
+          <Reveal>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 14, padding: "26px 0", borderTop: `1px solid rgba(${th.node},0.1)`, borderBottom: `1px solid rgba(${th.node},0.1)` }} className="impact-strip">
+              {IMPACT.map((m, i) => (<ImpactCell key={i} m={m} i={i} last={i === IMPACT.length - 1} th={th} mono={mono} display={display} />))}
+            </div>
+          </Reveal>
+          <Section id="about" num="01" title={SECTION_TITLES.about} mono={mono} display={display} th={th}>
+            <div style={{ display: "grid", gridTemplateColumns: "1.5fr 1fr", gap: 36, alignItems: "start" }} className="about-grid">
+              <Reveal><p style={{ fontSize: 16.5, lineHeight: 1.9, color: "#bcc6db", margin: 0 }}>{DATA.about}</p></Reveal>
+              <Reveal delay={0.1} from="right">
+                <div style={{ border: `1px solid ${th.accent}26`, borderRadius: 14, padding: 22, background: `${th.accent2}11`, boxShadow: `inset 0 0 30px ${th.accent}0a` }}>
+                  <div style={{ fontFamily: mono, fontSize: 12, color: th.accent, marginBottom: 14, letterSpacing: 1 }}>// QUICK FACTS</div>
+                  {DATA.facts.map(([k, v]) => (<div key={k} style={{ display: "flex", justifyContent: "space-between", padding: "7px 0", borderBottom: `1px solid rgba(${th.node},0.07)`, fontSize: 13.5 }}><span style={{ color: "#8b96b0" }}>{k}</span><span style={{ color: "#fff", fontWeight: 600, textAlign: "right", maxWidth: "60%" }}>{v}</span></div>))}
+                </div>
+              </Reveal>
+            </div>
+          </Section>
+          <WebSwing th={th} />
+          <Section id="experience" num="02" title={SECTION_TITLES.experience} mono={mono} display={display} th={th}>
+            <div style={{ position: "relative", paddingLeft: 30 }}>
+              <div style={{ position: "absolute", left: 5, top: 8, bottom: 8, width: 2, background: `linear-gradient(180deg, ${th.accent2}, ${th.accent})`, opacity: 0.6, boxShadow: `0 0 8px ${th.accent}55` }} />
+              {DATA.experience.map((e, i) => <Reveal key={i} delay={i * 0.12} from="left"><TL date={e.date} title={e.role} org={e.org} bullets={e.bullets} mono={mono} th={th} /></Reveal>)}
+              {DATA.education.map((e, i) => <Reveal key={i} delay={(DATA.experience.length + i) * 0.12} from="left"><TL date={e.date} title={e.degree} org={e.org} badge="Education" courses={e.courses} mono={mono} th={th} /></Reveal>)}
+            </div>
+          </Section>
+          <WebSwing th={th} flip />
+          <Section id="projects" num="03" title={SECTION_TITLES.projects} mono={mono} display={display} th={th}>
+            <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+              {DATA.projects.map((p) => <Project key={p.n} p={p} mono={mono} display={display} th={th} open={activeArch === p.n} onToggle={() => setActiveArch(activeArch === p.n ? null : p.n)} />)}
+            </div>
+          </Section>
+          <WebSwing th={th} />
+          <Section id="skills" num="04" title={SECTION_TITLES.skills} mono={mono} display={display} th={th}>
+            <Reveal><p style={{ fontSize: 14, color: "#8b96b0", marginTop: -16, marginBottom: 28 }}>Every hero has a kit. Here's mine — grouped by depth of experience, not just exposure.</p></Reveal>
+            <div style={{ display: "flex", flexDirection: "column", gap: 28 }}>
+              {DATA.skills.map((to, ti) => (<Reveal key={to.tier} delay={ti * 0.08}><div>
+                <div style={{ display: "flex", alignItems: "baseline", gap: 12, marginBottom: 16 }}><span style={{ fontFamily: display, fontSize: 18, color: ti === 0 ? th.accent : th.accent2, textTransform: "uppercase" }}>{to.tier}</span><span style={{ fontFamily: mono, fontSize: 12, color: "#8b96b0" }}>{to.note}</span></div>
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(260px,1fr))", gap: 14 }}>{to.groups.map((g, gi) => <PowerCard key={g.cat} g={g} mono={mono} display={display} th={th} delay={gi * 0.12} />)}</div>
+              </div></Reveal>))}
+            </div>
+          </Section>
+          <WebSwing th={th} flip />
+          <Section id="contact" num="05" title={SECTION_TITLES.contact} mono={mono} display={display} th={th}>
+            <Reveal>
+              <p style={{ fontSize: 17.5, color: "#bcc6db", maxWidth: 560, lineHeight: 1.7 }}>Open to Data Scientist and Data Analyst roles. Always happy to talk data pipelines, healthcare analytics, or BI dashboards.</p>
+              <ContactCards th={th} mono={mono} />
+            </Reveal>
+            <div style={{ marginTop: 64, paddingTop: 22, borderTop: `1px solid rgba(${th.node},0.08)`, fontFamily: mono, fontSize: 12, color: "#5a6480", paddingBottom: 50 }}>© 2026 {DATA.name} · {DATA.title} · with great data comes great responsibility.</div>
+          </Section>
+        </main>
+      </div>
+      <style>{`
+        * { cursor: none !important; }
+        @media(max-width:720px){ * { cursor: auto !important; } .hero-grid{grid-template-columns:1fr !important} .hero-web{display:none} .about-grid{grid-template-columns:1fr !important} .topnav{display:none !important} .demo-grid{grid-template-columns:1fr !important} .impact-strip{grid-template-columns:repeat(2,1fr) !important; gap:20px 14px !important} .impact-cell{border-right:none !important} .scroll-spider{display:none !important} }
+        @keyframes burstPop { 0%{transform:scale(0) rotate(-18deg);opacity:0} 45%{transform:scale(1.3) rotate(-12deg);opacity:1} 70%{transform:scale(.9) rotate(-12deg)} 100%{transform:scale(1) rotate(-12deg);opacity:1} }
+        @keyframes burstFade { to {opacity:0; transform:scale(1.5) rotate(-12deg)} }
+        @keyframes coverPop { from { transform: scale(0.7); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        @keyframes eggFade { 0%{opacity:0} 12%{opacity:1} 82%{opacity:1} 100%{opacity:0} }
+        @keyframes sensePulse { 0%{transform:scale(0.6);opacity:0.8} 100%{transform:scale(2.4);opacity:0} }
+        @keyframes screenShake { 0%,100%{transform:translate(0,0)} 20%{transform:translate(-6px,4px)} 40%{transform:translate(6px,-4px)} 60%{transform:translate(-5px,-3px)} 80%{transform:translate(5px,3px)} }
+        @keyframes glitch { 0%{transform:translate(0)} 50%{transform:translate(-2px,1px)} 100%{transform:translate(2px,-1px)} }
+        @keyframes burstLine { 0%{opacity:0.9} 55%{opacity:0.85} 80%{opacity:0.5} 100%{opacity:0} }
+        @keyframes centerFlash { 0%{opacity:0.8} 100%{opacity:0} }
+        @keyframes crackGrow { to { stroke-dashoffset: 0; } }
+        @keyframes crackRing { 0%{opacity:0} 100%{opacity:0.8} }
+        @keyframes coverFlash { 0%{filter:brightness(1)} 55%{filter:brightness(1.7)} 100%{filter:brightness(1.2)} }
+        @keyframes crackShake { 0%,100%{transform:translate(0,0)} 20%{transform:translate(-8px,5px)} 40%{transform:translate(7px,-6px)} 60%{transform:translate(-6px,-4px)} 80%{transform:translate(6px,5px)} }
+        @keyframes flashBurst { 0%{opacity:0.85} 100%{opacity:0} }
+        @keyframes shardFly { 0%{transform:translate(0,0) rotate(0) scale(1);opacity:1} 100%{transform:translate(var(--tx),var(--ty)) rotate(var(--rot)) scale(0.25);opacity:0} }
+        @keyframes bloomIn { 0%{opacity:0; transform:scale(0.8)} 60%{opacity:1; transform:scale(1.04)} 100%{opacity:1; transform:scale(1)} }
+        @keyframes contactPop { 0%{opacity:0; transform:translateY(20px) scale(0.9)} 100%{opacity:1; transform:translateY(0) scale(1)} }
+        .leg { transform-origin: 50px 52px; }
+        @keyframes legWiggleA { 0%,100%{transform:rotate(0deg)} 50%{transform:rotate(4deg)} }
+        @keyframes legWiggleB { 0%,100%{transform:rotate(0deg)} 50%{transform:rotate(-4deg)} }
+        .legA { animation: legWiggleA .28s ease-in-out infinite; } .legB { animation: legWiggleB .28s ease-in-out infinite; }
+        input[type=range]{ -webkit-appearance:none; height:5px; border-radius:3px; background:rgba(255,255,255,0.12); }
+      `}</style>
+    </div>
+  );
 }
-function closePalette() { overlay.classList.remove('open'); }
-window.openPalette = openPalette;
 
-overlay.addEventListener('click', closePalette);
-cmdInput.addEventListener('input', filterCmd);
-cmdInput.addEventListener('keydown', (e) => {
-  if (e.key === 'ArrowDown') { e.preventDefault(); selectedIdx = Math.min(selectedIdx + 1, filtered.length - 1); renderCmdList(); }
-  else if (e.key === 'ArrowUp') { e.preventDefault(); selectedIdx = Math.max(selectedIdx - 1, 0); renderCmdList(); }
-  else if (e.key === 'Enter') { e.preventDefault(); if (filtered[selectedIdx]) runCmd(filtered[selectedIdx]); }
-  else if (e.key === 'Escape') closePalette();
-});
+function Section({ id, num, title, mono, display, th, children }) {
+  return (
+    <section id={id} style={{ paddingTop: 96, paddingBottom: 24, scrollMarginTop: 70 }}>
+      <Reveal from="left">
+        <div style={{ display: "flex", alignItems: "baseline", gap: 16, marginBottom: 38 }}>
+          <span style={{ fontFamily: mono, fontSize: 15, color: th.accent, fontWeight: 700 }}>{num}</span>
+          <h2 style={{ fontFamily: display, fontSize: "clamp(30px,5vw,46px)", color: "#fff", margin: 0, textTransform: "uppercase", letterSpacing: -1 }}>{title}</h2>
+          <div style={{ flex: 1, height: 2, background: `linear-gradient(90deg, ${th.accent}, transparent)`, marginLeft: 8 }} />
+        </div>
+      </Reveal>
+      {children}
+    </section>
+  );
+}
 
-document.addEventListener('keydown', (e) => {
-  if ((e.metaKey || e.ctrlKey) && e.key === 'k') { e.preventDefault(); openPalette(); }
-  else if (e.key === 'Escape' && overlay.classList.contains('open')) closePalette();
-});
+function ImpactCell({ m, i, last, th, mono, display }) {
+  const [hov, setHov] = useState(false); const [ref, seen] = useInView(0.4);
+  return (
+    <div ref={ref} onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)} style={{ position: "relative", textAlign: "center", borderRight: !last ? `1px solid rgba(${th.node},0.08)` : "none", overflow: "hidden", opacity: seen ? 1 : 0, transform: seen ? "none" : "scale(0.7) translateY(20px)", transition: `opacity .6s ease ${i * 0.12}s, transform .6s cubic-bezier(.2,.9,.3,1.4) ${i * 0.12}s` }} className="impact-cell">
+      {hov && <span style={{ position: "absolute", left: "50%", top: "42%", width: 20, height: 20, marginLeft: -10, marginTop: -10, borderRadius: "50%", border: `2px solid ${th.accent}`, pointerEvents: "none", animation: "sensePulse .7s ease-out forwards" }} />}
+      <div style={{ fontFamily: display, fontSize: "clamp(26px,4vw,40px)", color: i % 2 === 0 ? th.accent : "#fff", letterSpacing: -1, textShadow: hov ? `0 0 24px ${th.accent}` : (i % 2 === 0 ? `0 0 20px ${th.accent}55` : "none"), transform: hov ? "scale(1.08)" : "scale(1)", transition: "transform .3s, text-shadow .3s" }}><Counter value={m.val} suffix={m.suffix} decimals={m.decimals || 0} /></div>
+      <div style={{ fontFamily: mono, fontSize: 11, color: "#8b96b0", marginTop: 6, letterSpacing: 0.5, textTransform: "uppercase" }}>{m.label}</div>
+    </div>
+  );
+}
 
-renderCmdList();
-</script>
+function TL({ date, title, org, bullets, badge, courses, mono, th }) {
+  return (
+    <div style={{ position: "relative", marginBottom: 32 }}>
+      <div style={{ position: "absolute", left: -30, top: 5, width: 12, height: 12, borderRadius: "50%", background: th.ink, border: `2px solid ${th.accent}`, boxShadow: `0 0 12px ${th.accent}` }} />
+      <div style={{ fontFamily: mono, fontSize: 12, color: th.accent2, marginBottom: 4, fontWeight: 600 }}>{date}</div>
+      <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}><h3 style={{ fontSize: 17.5, fontWeight: 700, color: "#fff", margin: 0 }}>{title}</h3>{badge && <span style={{ fontSize: 11, padding: "2px 8px", borderRadius: 4, background: `${th.accent2}26`, color: th.accent2, fontFamily: mono }}>{badge}</span>}</div>
+      <div style={{ fontSize: 14, color: "#a9b3cb", margin: "3px 0 0" }}>{org}</div>
+      {bullets && <ul style={{ margin: "12px 0 0", paddingLeft: 18, fontSize: 14.5, lineHeight: 1.75, color: "#bcc6db" }}>{bullets.map(b => <li key={b} style={{ marginBottom: 7 }}>{b}</li>)}</ul>}
+      {courses && (<div style={{ marginTop: 12 }}><div style={{ fontFamily: mono, fontSize: 10.5, letterSpacing: 1, textTransform: "uppercase", color: "#8b96b0", marginBottom: 8 }}>// Relevant Coursework</div><div style={{ display: "flex", flexWrap: "wrap", gap: 7 }}>{courses.map(c => <Tag key={c} label={c} mono={mono} th={th} />)}</div></div>)}
+    </div>
+  );
+}
+
+function Project({ p, mono, display, th, open, onToggle }) {
+  const [hov, setHov] = useState(false); const [pulses, setPulses] = useState([]); const [caseOpen, setCaseOpen] = useState(false); const [ref, seen] = useInView(0.3);
+  const sense = (e) => { const r = e.currentTarget.getBoundingClientRect(); const id = Date.now(); setPulses(ps => [...ps, { id, x: e.clientX - r.left, y: e.clientY - r.top }]); setTimeout(() => setPulses(ps => ps.filter(q => q.id !== id)), 650); };
+  return (
+    <div ref={ref} style={{ opacity: seen ? 1 : 0, transform: seen ? "none" : "translateY(50px) scale(0.95)", transition: "opacity .7s ease, transform .8s cubic-bezier(.2,.8,.3,1.1)" }}>
+      <div onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)} onMouseDown={sense} style={{ position: "relative", border: `1px solid ${hov ? th.accent : `rgba(${th.node},0.1)`}`, borderRadius: 18, padding: 28, background: th.panel, transition: "border-color .3s, transform .3s, box-shadow .3s", transform: hov ? "translateY(-4px)" : "none", boxShadow: hov ? `0 24px 50px -22px ${th.accent}` : "none", overflow: "hidden" }}>
+        {pulses.map(pl => <span key={pl.id} style={{ position: "absolute", left: pl.x, top: pl.y, width: 90, height: 90, marginLeft: -45, marginTop: -45, borderRadius: "50%", border: `2px solid ${th.accent}`, pointerEvents: "none", animation: "sensePulse .65s ease-out forwards", zIndex: 6 }} />)}
+        {seen && <div style={{ position: "absolute", top: 16, right: 18, zIndex: 5, animation: "burstPop .5s cubic-bezier(.2,.9,.3,1.4) forwards, burstFade .6s ease 1.5s forwards", pointerEvents: "none" }}><ComicBurst label={p.burst} th={th} display={display} /></div>}
+        <div style={{ position: "absolute", top: -30, left: -30, width: 130, height: 130, opacity: 0.07, backgroundImage: `radial-gradient(#fff 1.5px, transparent 1.5px)`, backgroundSize: "11px 11px" }} />
+        <div style={{ borderRadius: 12, overflow: "hidden", border: `1px solid rgba(${th.node},0.1)`, marginBottom: 20, height: 124, position: "relative" }}><ProjectPreview kind={p.preview} img={p.img} th={th} /><div style={{ position: "absolute", bottom: 6, right: 9, fontFamily: mono, fontSize: 9.5, color: "#8b96b0", letterSpacing: 0.5 }}>PREVIEW</div></div>
+        <div style={{ fontFamily: mono, fontSize: 12, color: th.accent, marginBottom: 6 }}>{p.n} / FEATURED</div>
+        <h3 style={{ fontFamily: display, fontSize: 24, color: "#fff", margin: 0, textTransform: "uppercase", letterSpacing: -0.5, maxWidth: "82%" }}>{p.title}</h3>
+        <div style={{ fontFamily: mono, fontSize: 13, color: "#8b96b0", marginTop: 5 }}>{p.sub}</div>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 12, margin: "22px 0" }}>{p.results.map((r, i) => (<div key={i} style={{ border: `1px solid rgba(${th.node},0.1)`, borderRadius: 10, padding: "16px 10px", textAlign: "center", background: `${th.accent2}0d` }}><div style={{ fontFamily: display, fontSize: 28, color: i === 0 ? th.accent : "#fff", letterSpacing: -0.5, textShadow: i === 0 ? `0 0 18px ${th.accent}66` : "none" }}><Counter value={r.val} suffix={r.suffix} decimals={r.decimals || 0} /></div><div style={{ fontSize: 11, color: "#8b96b0", marginTop: 4, lineHeight: 1.3 }}>{r.label}</div></div>))}</div>
+        <p style={{ fontSize: 14.5, lineHeight: 1.8, color: "#bcc6db", margin: "0 0 16px" }}>{p.desc}</p>
+        <div style={{ display: "flex", gap: 7, flexWrap: "wrap", marginBottom: 16 }}>{p.stack.map(s => <span key={s} style={{ fontFamily: mono, fontSize: 11.5, padding: "4px 9px", borderRadius: 5, background: `${th.accent}1a`, color: "#fff", border: `1px solid ${th.accent}44` }}>{s}</span>)}</div>
+        {p.demo && <ChurnDemo th={th} mono={mono} display={display} />}
+        {p.caseStudy && (<div style={{ marginTop: 16 }}>
+          <button onClick={() => setCaseOpen(o => !o)} style={{ background: caseOpen ? th.accent : "none", border: `1px solid ${th.accent}`, color: caseOpen ? "#fff" : th.accent, fontFamily: mono, fontSize: 13, padding: "8px 16px", borderRadius: 8, cursor: "none", fontWeight: 700, letterSpacing: 0.5 }}>{caseOpen ? "− Close Case File" : "📂 Open Case File"}</button>
+          <div style={{ maxHeight: caseOpen ? 600 : 0, overflow: "hidden", transition: "max-height .5s ease, margin .5s ease", marginTop: caseOpen ? 16 : 0 }}><div style={{ display: "flex", flexDirection: "column", gap: 14 }}>{[["The Problem", p.caseStudy.problem, th.accent], ["The Approach", p.caseStudy.approach, th.accent2], ["The Result", p.caseStudy.result, "#3ecf8e"]].map(([label, text, c]) => (<div key={label} style={{ borderLeft: `3px solid ${c}`, paddingLeft: 16 }}><div style={{ fontFamily: mono, fontSize: 11, letterSpacing: 1.5, textTransform: "uppercase", color: c, fontWeight: 700, marginBottom: 6 }}>{label}</div><p style={{ fontSize: 14, lineHeight: 1.7, color: "#bcc6db", margin: 0 }}>{text}</p></div>))}</div></div>
+        </div>)}
+        <div style={{ display: "flex", gap: 14, alignItems: "center", flexWrap: "wrap", marginTop: 16 }}>
+          <button onClick={onToggle} style={{ background: "none", border: `1px solid ${th.accent2}`, color: th.accent2, fontFamily: mono, fontSize: 13, padding: "7px 14px", borderRadius: 8, cursor: "none", fontWeight: 600 }}>{open ? "− Hide Architecture" : "+ View Architecture"}</button>
+          {p.links.map(([l, h]) => <a key={l} href={h} target="_blank" rel="noopener noreferrer" style={{ color: "#8b96b0", fontSize: 13, fontFamily: mono, textDecoration: "none", cursor: "none" }}>{l} ↗</a>)}
+        </div>
+        <div style={{ maxHeight: open ? 260 : 0, overflow: "hidden", transition: "max-height .45s ease, margin .45s ease", marginTop: open ? 20 : 0 }}><div style={{ border: `1px dashed ${th.accent2}`, borderRadius: 12, padding: "20px 16px", background: `${th.ink}88` }}><div style={{ fontFamily: mono, fontSize: 11, color: "#8b96b0", marginBottom: 14, letterSpacing: 1 }}>// PIPELINE</div><div style={{ display: "flex", alignItems: "center", flexWrap: "wrap", gap: 8 }}>{p.arch.map((step, i) => (<div key={i} style={{ display: "flex", alignItems: "center", gap: 8 }}><div style={{ fontFamily: mono, fontSize: 12, fontWeight: 600, color: "#fff", border: `1px solid ${th.accent2}66`, background: `${th.accent2}1f`, borderRadius: 8, padding: "8px 12px", whiteSpace: "nowrap" }}>{step}</div>{i < p.arch.length - 1 && <span style={{ color: th.accent, fontSize: 14 }}>→</span>}</div>))}</div></div></div>
+      </div>
+    </div>
+  );
+}
+
+function ComicBurst({ label, th, display }) {
+  const spikes = 12, pts = [];
+  for (let i = 0; i < spikes * 2; i++) { const ang = (i / (spikes * 2)) * Math.PI * 2; const r = i % 2 === 0 ? 50 : 33; pts.push(`${50 + Math.cos(ang) * r},${50 + Math.sin(ang) * r}`); }
+  return (<div style={{ position: "relative", width: 90, height: 90 }}><svg viewBox="0 0 100 100" style={{ width: "100%", height: "100%", filter: `drop-shadow(0 3px 8px ${th.accent}aa)` }}><polygon points={pts.join(" ")} fill={th.accent} stroke="#fff" strokeWidth="2.5" /></svg><div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: display, fontSize: 16, color: "#fff", textTransform: "uppercase", letterSpacing: -0.5, textShadow: "1px 1px 0 rgba(0,0,0,0.35)" }}>{label}</div></div>);
+}
+
+function ContactCards({ th, mono }) {
+  const [copied, setCopied] = useState(null);
+  const items = [
+    { l: "Email", val: DATA.email, href: `mailto:${DATA.email}`, copy: DATA.email, ext: false },
+    { l: "Phone", val: "+1 (315) 728-0838", href: `tel:${DATA.phone}`, copy: "+13157280838", ext: false },
+    { l: "LinkedIn", val: "aditya-marathe99", href: DATA.linkedin, ext: true },
+    { l: "GitHub", val: "Aditya768", href: DATA.github, ext: true },
+  ];
+  const handle = (e, it) => { if (it.ext) return; e.preventDefault(); try { window.open(it.href, "_blank"); } catch (_) {} if (it.copy && navigator.clipboard) { navigator.clipboard.writeText(it.copy).then(() => { setCopied(it.l); setTimeout(() => setCopied(null), 1800); }).catch(() => {}); } };
+  return (
+    <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginTop: 24 }}>
+      {items.map((it, idx) => (<a key={it.l} href={it.href} target={it.ext ? "_blank" : undefined} rel="noopener noreferrer" onClick={(e) => handle(e, it)} style={{ border: `1px solid rgba(${th.node},0.15)`, background: `rgba(${th.node},0.03)`, borderRadius: 10, padding: "12px 20px", color: "#fff", textDecoration: "none", fontSize: 14, fontWeight: 600, fontFamily: mono, transition: "all .25s", cursor: "none", display: "flex", flexDirection: "column", gap: 3, minWidth: 120, opacity: 0, animation: `contactPop .5s cubic-bezier(.2,.9,.3,1.3) ${idx * 0.1}s forwards` }} onMouseEnter={e => { e.currentTarget.style.borderColor = th.accent; }} onMouseLeave={e => { e.currentTarget.style.borderColor = `rgba(${th.node},0.15)`; }}><span style={{ fontSize: 10.5, letterSpacing: 1, textTransform: "uppercase", color: th.accent, fontWeight: 700 }}>{copied === it.l ? "✓ Copied!" : `${it.l} ↗`}</span><span>{it.val}</span></a>))}
+    </div>
+  );
+}
+
+function PowerCard({ g, mono, display, th, delay = 0 }) {
+  const [hov, setHov] = useState(false); const [ref, seen] = useInView(0.25);
+  return (
+    <div ref={ref} onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)} style={{ border: `1px solid ${hov ? th.accent : `rgba(${th.node},0.1)`}`, borderRadius: 12, padding: 18, background: `rgba(${th.node},0.025)`, opacity: seen ? 1 : 0, transform: seen ? "none" : "translateY(30px) scale(0.96)", transition: `opacity .6s ease ${delay}s, transform .6s cubic-bezier(.2,.8,.3,1.2) ${delay}s, border-color .3s, box-shadow .3s`, boxShadow: hov ? `0 16px 36px -20px ${th.accent}` : "none" }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 6 }}><span style={{ fontSize: 22, lineHeight: 1, filter: hov ? `drop-shadow(0 0 8px ${th.accent})` : "none", transition: "filter .3s" }}>{g.icon}</span><span style={{ fontFamily: display, fontSize: 16, color: "#fff", textTransform: "uppercase", letterSpacing: -0.3 }}>{g.power}</span></div>
+      <div style={{ fontSize: 12.5, color: "#9aa6c2", lineHeight: 1.5, marginBottom: 10, minHeight: 36 }}>{g.desc}</div>
+      <div style={{ fontFamily: mono, fontSize: 10.5, textTransform: "uppercase", letterSpacing: 1, color: th.accent, fontWeight: 700, marginBottom: 10, opacity: 0.8 }}>{g.cat}</div>
+      <div style={{ display: "flex", flexWrap: "wrap", gap: 7 }}>{g.items.map(s => <Tag key={s} label={s} mono={mono} th={th} />)}</div>
+    </div>
+  );
+}
+
+function Tag({ label, mono, th }) {
+  const [h, setH] = useState(false);
+  return <span onMouseEnter={() => setH(true)} onMouseLeave={() => setH(false)} style={{ fontFamily: mono, fontSize: 12, padding: "5px 10px", borderRadius: 7, cursor: "none", background: h ? `${th.accent}26` : "transparent", color: h ? "#fff" : "#bcc6db", border: `1px solid ${h ? `${th.accent}66` : `rgba(${th.node},0.12)`}`, transform: h ? "translateY(-2px) scale(1.04)" : "none", boxShadow: h ? `0 4px 14px -4px ${th.accent}` : "none", transition: "all .2s" }}>{label}</span>;
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<Portfolio />);
+  </script>
 </body>
 </html>
